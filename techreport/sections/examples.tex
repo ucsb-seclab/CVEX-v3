@@ -1,0 +1,125 @@
+\section{Examples}
+\label{sec:examples}
+
+We describe two functional records from the corpus. Both concern well-known,
+publicly disclosed and long-patched vulnerabilities; the point of the records
+is not the vulnerabilities themselves, but the reusable, verified datasets
+they produce. The first, a local privilege escalation in \texttt{sudo}, was
+migrated by hand from the previous generation of \cvex and is verified by a
+planted flag. The second, an HTTP request-smuggling flaw in the
+\texttt{aiohttp} Python framework, was converted from a \genie reproduction
+and is verified by \genie's CTF-style verifier. Table~\ref{tab:examples}
+summarizes them.
+
+\begin{table}[t]
+\centering
+\caption{The two example records.}
+\label{tab:examples}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+ & \textbf{CVE-2023-22809} & \textbf{CVE-2024-52304} \\
+\midrule
+Software & \texttt{sudo} 1.9.12p1 & \texttt{aiohttp} 3.10.10 \\
+CWE & CWE-269 & CWE-444 \\
+Class & local privilege escalation & HTTP request smuggling \\
+Origin & previous \cvex generation & \genie \\
+Topology & \texttt{single} & \texttt{single} \\
+Success criterion & planted flag & \genie verifier \\
+Flag location & \texttt{/root/flag} (mode 0600) & --- \\
+Traced process & \texttt{sudo} & \texttt{python} \\
+Attack capture & 2,164 syscalls & 515~KB syscalls, 4.5~KB pcap \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Local: sudoedit (CVE-2023-22809)}
+
+\paragraph{The vulnerability.}
+\texttt{sudoedit} (\texttt{sudo -e}) lets an administrator allow a user to
+edit specific files with elevated privileges, without granting a root shell.
+According to the public advisory, versions of \texttt{sudo} up to 1.9.12p1
+mishandle the editor selected through the user's environment, so that a user
+who is permitted to edit one file can edit other files as
+well~\cite{cve}. Since the user controls which files are opened with
+elevated privileges, the flaw amounts to a full privilege escalation. It was
+fixed in \texttt{sudo} 1.9.12p2.
+
+\paragraph{The target.}
+The target image builds the vulnerable \texttt{sudo} 1.9.12p1 from a
+vendored source tarball, so that the record does not depend on a
+distribution package that may change or disappear. It creates an
+unprivileged user and installs a sudoers policy that grants this user a
+single right: to edit \file{/etc/motd} with \texttt{sudoedit}. At container
+start, \file{plant-flag.sh} writes the record's flag to \file{/root/flag},
+owned by root with mode 0600. The policy is the whole point of the record:
+under a correct \texttt{sudo}, nothing the user is allowed to do can reveal
+the flag.
+
+\paragraph{Benign and attack phases.}
+The benign phase exercises exactly the permission the policy grants: the
+user edits \file{/etc/motd} through \texttt{sudoedit}, with an editor that
+leaves the file unchanged. The attack phase starts from a fresh container
+and runs, as the same unprivileged user, the publicly documented
+exploitation of the flaw; it succeeds if it prints the flag. Both phases run
+the same binary under the same policy, so the two traces differ only in what
+the exploitation adds.
+
+\paragraph{Verification and dataset.}
+The record declares \texttt{success: flag} with the \texttt{stdout} channel:
+the runner compares the flag printed by the attack with the planted one, and
+in the reference run they match. Because the flag is readable only by root,
+a match proves that the escalation genuinely happened, and not merely that
+an exploit ran. The record is local, so its dataset is centered on system
+calls: the recorder traces \texttt{sudo} and its children, producing 1,699
+lines in the benign phase and 2,164 in the attack phase. The difference is
+visible directly in the traces: the attack trace contains the access to
+\file{/root/flag} and additional process executions, while the benign trace
+never touches the flag. This pairing (same program, same policy, one benign
+and one malicious use) is the kind of labeled data that host-based detectors
+need.
+
+\subsection{Network-Facing: aiohttp (CVE-2024-52304)}
+
+\paragraph{The vulnerability.}
+\texttt{aiohttp} is a widely used asynchronous HTTP client/server framework
+for Python. According to its advisory, before version 3.10.11 the
+pure-Python HTTP parser incorrectly handled newlines inside chunk extensions
+of chunked request bodies~\cite{cve}. When the C extensions are not in use,
+a front-end proxy and an \texttt{aiohttp} back end can disagree on where a
+request ends, which enables HTTP request smuggling (CWE-444) and can let an
+attacker bypass protections enforced by the proxy.
+
+\paragraph{From a \genie reproduction to a record.}
+\genie reproduced this CVE automatically, producing an exploit and a
+verifier. The verifier forces the pure-Python parser, starts an
+\texttt{aiohttp} server, runs the exploit against it, and checks whether the
+server received two distinct requests although the client sent only one;
+if so, it prints \genie's flag. The conversion to \cvexthree packages these
+artifacts into a record: the target image is \texttt{python:3.11-slim} with
+\texttt{aiohttp} 3.10.10 (the last release before the fix) installed from
+PyPI, and the exploit and verifier are copied into it. The record's
+\file{\_source} directory keeps \genie's original artifacts and the CVE
+metadata (advisory, CWE, patch commit), so that the record's provenance is
+preserved.
+
+\paragraph{Verification and dataset.}
+The record declares \texttt{success: verifier}: the attack phase runs
+\genie's verifier inside the target, and the runner accepts the
+reproduction if the verifier succeeds; in the reference run it prints the
+flag \texttt{3xploit66full}. Because the verifier starts its own server and
+talks to it over the loopback interface, the recorder, which shares the
+target's network namespace, captures the smuggling exchange itself (a
+4.5~KB packet capture) together with 515~KB of system-call trace of the
+Python processes. The record is a network-facing vulnerability reproduced
+within a single container: no separate attacker container is needed, yet
+the dataset still contains the malicious HTTP traffic.
+
+\paragraph{Limitations.}
+This record also shows where the corpus still needs work. Its benign phase
+only imports the library, a placeholder rather than a realistic workload;
+for most records converted from \genie, the benign workloads have yet to be
+written so that they exercise the same interface as the attack (here, normal
+chunked requests to the same server). Records converted from \genie also
+download their source at build time rather than vendoring it. Both are on
+our list of improvements to the corpus.

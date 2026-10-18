@@ -1,0 +1,9 @@
+# LaTeX build artifacts
+main.pdf
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.fls
+*.fdb_latexmk

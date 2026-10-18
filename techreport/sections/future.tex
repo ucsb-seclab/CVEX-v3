@@ -1,0 +1,54 @@
+\section{Future Work: Virtual Machines}
+\label{sec:future}
+
+Containers share the host's kernel. This is what makes \cvexthree records
+light enough to run by the hundred on one machine, but it also bounds the
+vulnerabilities the format can express. A record cannot install a different
+kernel, load kernel modules, change kernel configuration, or run a non-Linux
+operating system, and a privileged operation inside a container affects the
+host as well. We plan to extend the format with a \emph{VM target}: a
+manifest option that replaces the target container with a virtual machine
+image, while keeping everything else in the record unchanged (the roles, the
+success criteria, the two-phase run protocol, and the dataset layout). The
+VM-based generation of \cvex (Section~\ref{sec:background}) already
+demonstrated how to provision and instrument such targets; the extension
+would bring that capability into the uniform \cvexthree record.
+
+Several classes of vulnerabilities need this extension:
+
+\begin{itemize}
+\item \textbf{Kernel vulnerabilities.} Linux kernel flaws such as
+CVE-2016-5195 (``Dirty COW''), CVE-2022-0847 (``Dirty Pipe''), and
+CVE-2024-1086 (a use-after-free in \texttt{nf\_tables}) depend on a specific
+vulnerable kernel version and configuration, which a container cannot
+provide.
+
+\item \textbf{Vulnerabilities in non-Linux systems.} Windows vulnerabilities
+such as CVE-2017-0144 (the SMBv1 flaw known as EternalBlue), CVE-2019-0708
+(``BlueKeep'', in the Remote Desktop service), and CVE-2021-34527
+(``PrintNightmare'', in the Print Spooler) require a Windows guest.
+
+\item \textbf{Container and isolation boundaries.} Vulnerabilities in the
+container runtime itself, such as CVE-2019-5736 in \texttt{runc}, cannot be
+reproduced safely inside the runtime they affect.
+
+\item \textbf{Environment-dependent behavior.} Some user-space
+vulnerabilities depend on how the C library and the kernel interact. While
+building the corpus we were unable to reproduce CVE-2019-18276, a
+\texttt{bash} privilege-management flaw, because it requires a C library and
+kernel combination that preserves the saved user ID when \texttt{bash} drops
+privileges, which our container environment does not provide.
+
+\item \textbf{Records that need host privileges.} A few records in the
+corpus already require additional container capabilities (for example,
+permission to mount file systems or to configure traffic control) to
+reproduce their vulnerability. Granting these weakens the isolation between
+the record and the host; a VM target would restore it.
+\end{itemize}
+
+A VM target also enables richer observation. Besides packets and system
+calls, a VM-based recorder can capture kernel events, Windows API calls, and
+whole-system snapshots taken before and after the attack. The success
+criteria of \cvexthree carry over unchanged: a flag readable only by root in
+the guest, or a crash witness for a kernel panic, decides success just as it
+does for containers.

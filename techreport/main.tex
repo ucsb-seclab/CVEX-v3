@@ -1,0 +1,94 @@
+%% CVEX v3 technical report -- ACM CCS (acmart sigconf) style.
+%% Build: python3 gen_stats.py && make
+\documentclass[sigconf,nonacm]{acmart}
+
+\settopmatter{printacmref=false}
+\setcopyright{none}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\pagestyle{plain}
+
+\usepackage{xspace}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,arrows.meta,backgrounds}
+
+\input{stats}
+
+\newcommand{\cvex}{CVEX\xspace}
+\newcommand{\cvexthree}{CVEX~v3\xspace}
+\newcommand{\genie}{CVE-Genie\xspace}
+\newcommand{\file}[1]{\texttt{#1}}
+
+\lstdefinestyle{cvex}{
+  basicstyle=\ttfamily\scriptsize,
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true,
+  frame=single,
+  framerule=0.4pt,
+  rulecolor=\color{black!40},
+  backgroundcolor=\color{black!3},
+  commentstyle=\color{black!55}\itshape,
+  showstringspaces=false,
+  xleftmargin=2pt,
+  xrightmargin=2pt,
+  aboveskip=6pt,
+  belowskip=4pt,
+}
+\lstset{style=cvex}
+
+\begin{document}
+
+\title{CVEX v3: Executable CVEs for Verifiable Vulnerability Reproduction}
+\subtitle{Technical Report}
+
+\author{Giovanni Vigna}
+\affiliation{%
+  \institution{University of California, Santa Barbara}
+  \city{Santa Barbara}
+  \state{CA}
+  \country{USA}}
+\email{vigna@ucsb.edu}
+
+\begin{abstract}
+A CVE entry tells a defender that a vulnerability exists, but not how to
+make it happen. Reproducing a vulnerability, that is, rebuilding the
+vulnerable software, configuring it, and running an exploit that provably
+succeeds, remains a slow, expert-driven process, and the result is rarely
+packaged in a form that others can rerun. This is a problem for anyone who
+needs ground truth about attacks: the developers of detection models, the
+analysts who assess whether a patch actually fixes a flaw, and the
+researchers who build and evaluate automated security tools. We present
+\cvexthree (\emph{executable CVE}), a standard format for describing the
+reproduction of a vulnerability as a self-contained, containerized record.
+A \cvex record bundles the vulnerable target, a benign workload, an
+exploit, a recorder, and a machine-checkable success criterion. Borrowing
+from Capture-the-Flag competitions and from the verifiers produced by the
+\genie reproduction framework, success is defined by the capture of a
+secret flag that only a working exploit can reach. Every record is run
+twice, once with benign traffic and once with the attack, and both runs are
+captured as packet traces and system-call traces, which yields a labeled,
+paired dataset. We describe the format and its runner, and release a
+corpus of \NumRecords records, \NumFunctional of which are fully functional and
+verified, with reference datasets.
+\end{abstract}
+
+\keywords{vulnerability reproduction, CVE, exploits, datasets, containers,
+intrusion detection, benchmarks}
+
+\maketitle
+
+\input{sections/introduction}
+\input{sections/background}
+\input{sections/format}
+\input{sections/examples}
+\input{sections/future}
+\input{sections/related}
+\input{sections/conclusion}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{refs}
+
+\end{document}

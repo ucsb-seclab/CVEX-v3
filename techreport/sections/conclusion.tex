@@ -1,0 +1,20 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+A CVE entry records that a vulnerability exists; it does not let anyone
+observe it. We presented \cvexthree, a standard format for executable CVEs
+that packages the vulnerable target, a benign workload, an attack, a
+recorder, and a machine-checkable success criterion into a self-contained,
+container-based record. Inspired by Capture-the-Flag competitions and by the
+verifiers of \genie, \cvexthree defines success as the capture of a secret
+that only a working exploit can reach, and it runs every record twice, so
+that each run yields a labeled pair of benign and attack captures at the
+network and system-call level.
+
+We release a corpus of \NumRecords records, \NumFunctional of which are
+fully functional and ship with verified reference datasets. We hope that
+\cvex will make reproductions durable and shareable artifacts, and that the
+corpus will be useful to researchers who build detection models, assess
+patches, and evaluate automated security tools. Functionalizing the
+remaining records, and extending the format to virtual machines for
+vulnerabilities that require OS-level control, are the next steps.

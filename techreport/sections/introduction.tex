@@ -1,0 +1,128 @@
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{The Problem of Vulnerability Reproduction}
+
+The Common Vulnerabilities and Exposures (CVE) program assigns an identifier
+and a short description to every publicly disclosed vulnerability, and the
+number of entries grows by tens of thousands every year~\cite{cve,nvd}. A CVE
+entry is a pointer, not an experiment: it names the affected product and
+versions, and it may link to an advisory or a patch, but it does not tell the
+reader how to bring the vulnerable software up, how to trigger the flaw, or
+how to tell whether the attempt worked. Turning an entry into a working
+reproduction is left to whoever needs it.
+
+Many people need it. Reproductions are the ground truth on which much of
+security research and practice rests:
+
+\begin{itemize}
+\item \textbf{Detection models.} Network and host intrusion detection systems,
+signature generators, and machine-learning anomaly detectors must be trained
+and evaluated on traffic and system activity that contains real, successful
+attacks, alongside comparable benign activity. Long-lived public datasets are
+either synthetic or stale, and evaluating detectors on them has been
+repeatedly criticized~\cite{sommer2010outside,lippmann2000darpa,creech2013adfa}.
+A reproduction that can be rerun at will produces fresh, labeled captures for
+exactly the vulnerability of interest.
+
+\item \textbf{Patch analysis.} Security patches are often incomplete:
+large-scale studies show that a notable fraction of fixes must be revised
+before a vulnerability is really closed~\cite{li2017patches}. The two Apache
+\texttt{httpd} path-traversal vulnerabilities in our corpus illustrate this:
+the fix for CVE-2021-41773 shipped in version 2.4.50 was itself bypassable,
+which led to CVE-2021-42013. An executable reproduction turns ``does the
+patch work?'' into a test that can be run against the patched build, and
+against every later version.
+
+\item \textbf{Automated security tools.} Fuzzers, program analyzers, exploit
+generators, and, more recently, LLM-based agents are all evaluated on
+vulnerabilities whose presence and exploitability must be established
+beforehand~\cite{hazimeh2020magma,zhu2025cvebench,wang2026cybergym}. Without
+reproducible environments, these evaluations are hard to compare and hard to
+repeat.
+
+\item \textbf{Risk assessment and education.} Whether a vulnerability is
+exploitable in a given configuration, and what an exploitation looks like on
+the wire and on the host, are questions that defenders answer most reliably
+by running the attack. Reproducing attacks is also one of the most effective
+ways to teach how they work.
+\end{itemize}
+
+Reproduction, however, is expensive. In the most extensive study of the
+subject, a team of analysts spent 3,600 hours trying to reproduce 368
+crowd-reported memory-corruption vulnerabilities, and found that reports
+routinely omit the information needed to succeed~\cite{mu2018reproducibility}.
+
+\subsection{The Challenge: No Standard Reproduction Environment}
+
+The difficulty is not only in crafting an exploit. Most of the effort goes
+into the environment: obtaining the exact vulnerable version, building it
+with a compatible toolchain, installing its dependencies, configuring it into
+an exploitable state, and seeding it with the data an attack needs. Every
+reproduction effort solves these problems in its own way, and the solution is
+rarely captured in a reusable form. Exploit databases publish exploits but
+not the environment they target~\cite{exploitdb}. Collections of
+containerized vulnerable applications, such as Vulhub~\cite{vulhub}, provide
+environments but no uniform notion of what a successful exploitation is, and
+no instrumentation. Benchmarks built for fuzzers or AI agents define
+environments tailored to their own harnesses~\cite{mei2026arvo,zhu2025cvebench,wang2026cybergym,lee2025secbench}.
+As a result, there is no standard way to \emph{describe} the environment in
+which a vulnerability is reproduced, to \emph{verify} that the reproduction
+succeeded, or to \emph{record} what happened during the attack. Results
+produced by one group cannot easily be rerun by another, and reproductions
+are lost when the original setup disappears.
+
+\subsection{Our Solution: CVEX, the Executable CVE}
+
+We propose \cvex, short for \emph{executable CVE}: a standard format that
+augments a CVE entry with everything needed to reproduce it. A \cvex record
+is a small, self-contained directory that describes (i)~the vulnerable
+\emph{target}, built in a container; (ii)~a \emph{benign} workload that uses
+the same service legitimately; (iii)~an \emph{attack} that exploits the
+vulnerability; (iv)~a \emph{recorder} that captures network packets and
+system calls; and (v)~a machine-checkable \emph{success criterion}. Running a
+record produces a verdict and a dataset.
+
+The central design choice of the third version of the format, \cvexthree, is
+how success is defined. Following Capture-the-Flag (CTF) competitions, and
+the verifiers produced by the \genie automated reproduction
+framework~\cite{ullah2026cvegenie}, a record plants a secret \emph{flag} in
+the target, at a location that only a successful exploitation can reach: a
+root-owned file for a privilege escalation, a file outside the web root for a
+path traversal, a database row for an SQL injection. The attack succeeds if
+and only if it returns the flag. This makes verification objective and
+uniform across vulnerability classes, and it guarantees that the attack half
+of every dataset contains an exploitation that actually worked.
+
+\subsection{Contributions}
+
+This report makes two contributions.
+
+\begin{enumerate}
+\item \textbf{The \cvexthree format.} We define a uniform, Docker-based record
+structure with a declarative manifest, three deployment topologies, and three
+success criteria (planted flag, CTF-style verifier, and crash witness). We
+define a run protocol that exercises every record in two isolated phases,
+benign and attack, each against a pristine target, and records both as packet
+captures and system-call traces. We provide a reference runner that builds a
+record, runs it, verifies it, and writes a content-addressed dataset
+(Section~\ref{sec:format}).
+
+\item \textbf{A corpus of executable CVEs.} We release \NumRecords \cvexthree
+records. \NumFunctional of them are fully functional: they have been built
+and run by the reference runner, their exploitation has been verified, and
+they ship with reference benign/attack captures. These include \NumMigratedFunctional
+records migrated by hand from the previous generation of the format
+and \NumGenieFunctional records converted from \genie reproductions, covering
+\NumGenieCWEs CWE classes across \NumGenieProjects open-source projects. The
+remaining records are scaffolds that are being functionalized
+(Section~\ref{sec:dataset}).
+\end{enumerate}
+
+The rest of this report is organized as follows. Section~\ref{sec:background}
+reviews CVEs, CWEs, existing approaches to reproduction, and the earlier
+versions of \cvex. Section~\ref{sec:format} describes the \cvexthree format,
+its runner, and the corpus. Section~\ref{sec:examples} walks through two
+records in detail. Section~\ref{sec:future} discusses extending the format to
+virtual machines, Section~\ref{sec:related} surveys related work, and
+Section~\ref{sec:conclusion} concludes.

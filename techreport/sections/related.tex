@@ -1,0 +1,75 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Studies of reproducibility.}
+Mu et al.~\cite{mu2018reproducibility} conducted the first large empirical
+study of vulnerability reproducibility, measuring how often crowd-reported
+memory-corruption vulnerabilities can be reproduced from public reports and
+which missing information most often prevents it. Their findings motivate
+formats, like \cvex, that capture the full environment of a reproduction
+rather than a prose description of it.
+
+\paragraph{Reproducible vulnerability datasets.}
+ARVO~\cite{mei2026arvo} rebuilds thousands of memory-safety vulnerabilities
+found by OSS-Fuzz in C/C++ projects, providing for each a build environment,
+a triggering input, and the fixing patch. Magma~\cite{hazimeh2020magma}
+forward-ports real bugs into recent library versions, with ground-truth
+canaries, to benchmark fuzzers. Vulhub~\cite{vulhub} is a community
+collection of Docker Compose environments for vulnerable applications. In
+software engineering, Defects4J~\cite{just2014defects4j} established the
+value of a curated, executable database of real faults for controlled
+experiments. \cvex shares the goal of executable ground truth, but differs in
+three respects: it is not limited to a single bug class or ecosystem, it
+defines success uniformly through a planted flag, and it records paired
+benign and attack activity at both the network and the system-call level.
+
+\paragraph{Benchmarks for automated exploitation.}
+The rise of LLM-based agents has produced several benchmarks built on real
+vulnerabilities. CVE-Bench~\cite{zhu2025cvebench} packages 40 critical web
+application CVEs in a sandbox that scores agents' exploitation attempts.
+Cybench~\cite{zhang2025cybench} collects 40 professional Capture-the-Flag
+tasks. CyberGym~\cite{wang2026cybergym} asks agents to generate PoCs for 1,507
+vulnerabilities from 188 projects, given a description and the codebase, and
+SEC-bench~\cite{lee2025secbench} automatically constructs PoC-generation and
+patching tasks from real vulnerabilities. Earlier, the DARPA Cyber Grand
+Challenge~\cite{cgc} and the AI Cyber Challenge~\cite{aixcc} evaluated
+autonomous systems on purpose-built or injected vulnerabilities. These
+benchmarks define environments and success checks for their own harnesses;
+\cvex aims to be a harness-independent format, and its records can serve as
+tasks for such benchmarks.
+
+\paragraph{Automated reproduction.}
+\genie~\cite{ullah2026cvegenie} automates the end-to-end reproduction of
+CVEs, from collecting resources to building the project, exploiting it, and
+verifying the result with a CTF-style verifier. \cvex is complementary: it
+provides the portable, rerunnable packaging that turns an automated
+reproduction into a durable artifact, and \NumGenieFunctional records of our
+corpus were obtained by converting \genie's reproductions.
+
+\paragraph{Vulnerability code datasets.}
+A large body of work collects vulnerable and fixed code for training and
+evaluating vulnerability detectors, including the Juliet test suite in
+NIST's SARD~\cite{sard}, Devign~\cite{zhou2019devign}, BigVul~\cite{fan2020bigvul},
+CVEfixes~\cite{bhandari2021cvefixes}, and PrimeVul~\cite{ding2025primevul}.
+These datasets are static: they label code, but do not provide a way to run
+the vulnerable program or to demonstrate exploitation. \cvex records can
+complement them with executable evidence.
+
+\paragraph{Intrusion detection datasets.}
+Labeled traffic and system-call datasets are the traditional basis for
+evaluating intrusion detection, from the DARPA 1999
+evaluation~\cite{lippmann2000darpa} to ADFA-LD~\cite{creech2013adfa},
+CICIDS2017~\cite{sharafaldin2018cicids}, and LID-DS~\cite{grimmer2023liddsr}.
+Sommer and Paxson~\cite{sommer2010outside} discuss the pitfalls of
+evaluating machine-learning detectors on such data. \cvex produces
+per-vulnerability, paired benign/attack captures on demand, where the attack
+half is guaranteed by the success criterion to contain a working
+exploitation.
+
+\paragraph{Kernel and OS-level reproduction.}
+Reproducing kernel vulnerabilities requires control over the kernel itself.
+syzbot~\cite{syzbot} continuously reproduces kernel bugs found by fuzzing in
+virtual machines, and SyzBridge~\cite{zou2024syzbridge} adapts upstream PoCs
+to downstream distribution kernels to assess their exploitability. These
+systems motivate the VM extension of \cvex discussed in
+Section~\ref{sec:future}.

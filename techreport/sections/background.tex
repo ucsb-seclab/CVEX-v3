@@ -1,0 +1,130 @@
+\section{Background}
+\label{sec:background}
+
+\subsection{CVE and CWE}
+
+The CVE program, operated by MITRE on behalf of the U.S.\ government, assigns
+a unique identifier of the form \texttt{CVE-YYYY-NNNNN} to each publicly
+disclosed vulnerability, together with a short description and a list of
+references~\cite{cve}. The National Vulnerability Database (NVD) enriches CVE
+entries with severity scores, affected-product configurations, and a weakness
+classification~\cite{nvd}. The classification uses the Common Weakness
+Enumeration (CWE), a hierarchical catalog of software and hardware weakness
+types, such as CWE-22 (path traversal), CWE-79 (cross-site scripting), or
+CWE-269 (improper privilege management)~\cite{cwe}. CVE and CWE answer the
+questions \emph{what} is vulnerable and \emph{what kind} of flaw it is; they
+deliberately do not describe \emph{how} to exploit it. A typical entry
+consists of a few sentences of prose and links to an advisory, a patch
+commit, and occasionally a proof of concept (PoC).
+
+\subsection{Approaches to Vulnerability Reproduction}
+
+\paragraph{Manual reproduction.}
+The traditional approach is manual. An analyst reads the advisory and the
+patch, locates and builds the vulnerable version, configures it, and writes
+or adapts an exploit, iterating until the exploit works. Mu et
+al.~\cite{mu2018reproducibility} quantified the cost of this process: a group
+of security analysts spent 3,600 hours attempting to reproduce 368
+vulnerabilities, and the information in individual reports was often
+insufficient for success. Their survey of 43 practitioners found that
+reproduction relies heavily on manual debugging and guesswork. Exploit
+databases~\cite{exploitdb} and environment collections such as
+Vulhub~\cite{vulhub} reduce part of this effort, but each covers only half of
+the problem: one provides exploits without environments, the other
+environments without a uniform notion of success or instrumentation.
+
+\paragraph{Automated reproduction: CVE-Genie.}
+\genie~\cite{ullah2026cvegenie}, to appear at ACM CCS 2026, automates the
+whole process with a multi-agent system built on large language models.
+Starting from a CVE identifier, \genie collects the associated resources
+(source code at the vulnerable version, advisory, CWE, patch, and PoC when
+available), rebuilds the vulnerable project, develops an exploit, and
+produces a \emph{verifier}: a script that runs the exploit and checks its
+effect. The system is organized in four stages, each made of
+developer agents paired with critic agents: a Processor, a Builder, an
+Exploiter, and a CTF Verifier. The verifier is designed after Capture-the-Flag
+challenges: it prints a fixed flag string only if it observes that the
+exploit had its intended effect, so that reproduction success can be checked
+mechanically. Evaluated on 841 CVEs published between June 2024 and May 2025,
+\genie reproduced 428 of them (about 51\%) across 267 projects, 141 CWEs, and
+22 programming languages, at an average cost of \$2.77 per CVE. The authors
+release the reproduced CVEs together with the full logs of the agents'
+interactions.
+
+\genie shows that reproduction can be automated at scale, but its outputs are
+tied to the environment in which the agents worked: a long-lived machine on
+which the agents installed packages, compiled code, wrote helper files, and
+started services interactively. The reproduced artifacts (the source
+snapshot, the exploit, and the verifier) do not capture this state, so they
+cannot be rerun elsewhere without reconstructing it. Packaging reproductions
+so that they can be rerun anywhere is precisely the problem that \cvex
+addresses, and \genie's flag-based verifier is one of the main inspirations
+for the success criterion of \cvexthree.
+
+\subsection{Previous Versions of CVEX}
+
+\cvexthree is the fourth iteration of an effort that began at UC Santa
+Barbara in 2021. Table~\ref{tab:generations} summarizes the earlier versions.
+
+\begin{table*}[t]
+\centering
+\caption{Evolution of the CVEX format.}
+\label{tab:generations}
+\small
+\begin{tabular}{@{}lllll@{}}
+\toprule
+ & \textbf{v1 (2021--22)} & \textbf{v2 (2023--24)} & \textbf{VM framework (2024--25)} & \textbf{v3 (2026)} \\
+\midrule
+Isolation & Docker Compose & Docker Compose & Vagrant VMs + Ansible & Docker (+ optional services) \\
+Roles & target, exploiter, collector & server, client, listener & target VM(s), attacker VM, router VM & target, benign, attacker, recorder \\
+Descriptor & \texttt{docker-compose.yml} + \texttt{cvex.json} & \texttt{docker-compose.yml} & \texttt{cvex.yml} + playbooks & \texttt{cvex.yml} + Dockerfiles \\
+Success check & file created/read, leak, \texttt{dmesg} & manual inspection & manual inspection & planted flag, verifier, crash witness \\
+Observability & pcap & pcap & pcap, TLS (mitmproxy), strace, Procmon & pcap + strace, benign \emph{and} attack \\
+Platforms & Linux & Linux & Linux and Windows & Linux \\
+Entries & 52 & 6 & 24 & \NumRecords (\NumFunctional functional) \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\paragraph{Version 1 (2021--2022).}
+The first version defined a \cvex entry as a Docker Compose project with
+three services: a \emph{target} running the vulnerable software, an
+\emph{exploiter} running the attack, and an optional \emph{collector}, a
+\texttt{tcpdump} sidecar sharing the target's network namespace. A JSON
+metadata file, validated by a schema, listed the CVEs, the authors, and an
+\texttt{exploit\_verification} clause stating how to decide success: a file
+created or read in the target, a leaked address, or a kernel log message.
+About fifty entries were produced, and a community scoreboard rewarded
+contributors with points for CVEs that others had upvoted. Images were
+served from a project registry, which has since become unavailable, so most
+of these entries can no longer be run as published.
+
+\paragraph{Version 2 (2023--2024).}
+A team of undergraduate researchers revisited the format with a simpler
+server/client/listener Compose pattern, published prebuilt images on the
+GitHub container registry, and catalogued the entries on a website. The
+version dropped the metadata file and the formal success check: success was
+established by inspecting the captured traffic.
+
+\paragraph{The VM-based framework (2024--2025).}
+The following version replaced containers with full virtual machines managed
+by Vagrant and provisioned by Ansible, in order to support OS-level and
+Windows vulnerabilities. Reusable \emph{blueprints} describe a network of
+VMs (e.g., an Ubuntu attacker and an Ubuntu target), and per-CVE
+\emph{records} add the playbooks and the attack commands. A router VM
+captures all traffic, decrypts TLS with a transparent \texttt{mitmproxy},
+and the framework traces system calls with \texttt{strace} on Linux and API
+calls with Process Monitor on Windows. Twenty-four records were contributed
+through pull requests. The framework is powerful, but heavy: every record
+requires multi-gigabyte VM images and a hypervisor, and, like its
+predecessors, it has no formal definition of success. Whether an exploit
+worked is left to the person inspecting the traces.
+
+\paragraph{Lessons.}
+Three lessons from these versions shaped \cvexthree. First, an entry must be
+rebuildable from what it contains: entries that depended on a registry or on
+prebuilt images disappeared with them. Second, success must be defined by the
+record itself and checked by a machine; otherwise a dataset may contain
+failed attacks labeled as attacks. Third, the format must be light enough to
+run hundreds of records on a single host, which favors containers over VMs
+for the large class of vulnerabilities that do not need kernel-level control.

@@ -1,0 +1,339 @@
+\section{CVEX v3}
+\label{sec:format}
+
+\cvexthree has three defining properties. First, it is \emph{Docker-only}: a
+record is a Docker Compose project, with no virtual machines, hypervisor, or
+per-host provisioning. Second, every record is exercised twice, once with
+legitimate activity and once with the attack, and both runs are captured as
+network packets and system calls. Third, success is \emph{flag-based}: the
+record plants a secret that only a successful exploitation can reach, and
+the attack succeeds if and only if it retrieves it. The format descends from
+the previous generations described in Section~\ref{sec:background}: it keeps
+the capture sidecar and the explicit exploit verification of the first
+generation, the server/client container pattern of the second, and the
+\file{cvex.yml} manifest and process tracing of the VM-based framework. The
+flag and the benign/attack pairing are new.
+
+\subsection{Record Structure}
+
+Every record has the same shape, so that tools and researchers can treat all
+records uniformly. A record is a directory named after its CVE identifier:
+
+\begin{lstlisting}
+CVE-YYYY-NNNNN/
+  cvex.yml            # manifest (Sec. 3.3)
+  compose.yml         # derived Docker Compose project
+  target/
+    Dockerfile        # builds the vulnerable software
+    vendor/           # pinned sources and binaries
+    plant-flag.sh     # installs the flag (Sec. 3.4)
+  benign/
+    Dockerfile
+    interact.sh       # legitimate use of the service
+  attacker/
+    Dockerfile
+    exploit.sh        # the attack; must emit the flag
+  recorder/           # shared capture image
+  _source/            # provenance: original artifacts
+  dataset/            # committed reference run (Sec. 3.7)
+\end{lstlisting}
+
+A record is composed of four container roles, each with a single
+responsibility (Table~\ref{tab:roles}). A record may add a second target
+container, typically a database, when the service needs one; everything else
+stays fixed. The \file{\_source} directory preserves the artifacts from which
+the record was derived (for example, the previous-generation record or the
+\genie reproduction, together with the CVE metadata), so that the provenance
+of every record is explicit.
+
+\begin{table}[t]
+\centering
+\caption{Container roles in a \cvexthree record.}
+\label{tab:roles}
+\small
+\begin{tabular}{@{}lp{0.68\columnwidth}@{}}
+\toprule
+\textbf{Role} & \textbf{Responsibility} \\
+\midrule
+\texttt{target} & runs the vulnerable software and holds the planted flag \\
+\texttt{benign} & a client that uses the service as a legitimate user would \\
+\texttt{attacker} & a client that exploits the service and retrieves the flag \\
+\texttt{recorder} & captures packets and system calls during each phase \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The roles are arranged in one of three \emph{topologies}. In the
+\texttt{target-attacker} topology, the benign and attacker clients are
+separate containers that reach the target over a private network; in
+\texttt{target+db-attacker}, the target is backed by a database container.
+In the \texttt{single} topology, used for local vulnerabilities and for
+libraries and command-line tools that have no network service, the benign
+workload and the attack run inside the target container itself, as
+\file{target/benign.sh} and \file{target/attack.sh}.
+
+\subsection{Design Rationale}
+
+Two choices shape the rest of the format. The first is that a single, uniform
+notion of success is more valuable than a per-record test. A record whose
+exploit ``ran'' tells a user very little: the exploit may have failed
+silently, or the environment may not have been vulnerable at all. By
+requiring every attack to produce a value that only a successful
+exploitation can obtain, the format guarantees that the attack half of every
+dataset is a genuine, successful exploitation, and makes verification a
+simple string comparison that is identical across vulnerability classes.
+
+The second choice is to separate the benign and attack phases rather than
+mixing them. Running the two phases against identical, pristine targets
+makes the two captures directly comparable, so that the difference between
+them is the attack itself, and gives clean labels. A \emph{mixed} phase, in
+which benign activity runs concurrently with the attack, can be added later
+without changing the schema.
+
+\subsection{The Manifest}
+
+The \file{cvex.yml} manifest declares everything the runner needs: the
+topology, the network layout, the flag and the success criterion, the
+container images, the processes to trace, and the two phases.
+Listing~\ref{lst:manifest} shows a manifest for a demonstration record that
+serves a benign \texttt{nginx} instance.
+
+\begin{lstlisting}[float=t,caption={A \file{cvex.yml} manifest (demonstration record).},label={lst:manifest}]
+cvex_version: 3
+cve: CVE-0000-00001
+topology: target-attacker # | single | target+db-attacker
+network:
+  subnet: 10.13.0.0/24    # fixed addresses in the pcap
+flag:
+  value: "CVEX{0000000000000000000000000000demo}"
+  plant: file:/opt/secret/flag
+success: flag             # flag | verifier | crash
+capture:
+  flag_channel: network   # stdout | network | verifier
+  tls_intercept: true
+  tls_ports: [443]
+services:
+  target:
+    image: cvex/cve-0000-00001-target@sha256:<digest>
+    ip: 10.13.0.10
+    trace: nginx          # process(es) to trace (regex)
+    ready: "tcp:443"      # readiness condition
+phases:
+  benign:
+    client: benign        # runs benign/interact.sh
+    image: cvex/cve-0000-00001-benign@sha256:<digest>
+    ip: 10.13.0.30
+  attack:
+    client: attacker      # runs attacker/exploit.sh
+    image: cvex/cve-0000-00001-attacker@sha256:<digest>
+    ip: 10.13.0.20
+limits:
+  wall_clock_seconds: 600
+\end{lstlisting}
+
+The \texttt{ready} condition tells the runner when the target is ready for a
+phase to start: either a TCP port that accepts connections or a file that the
+target creates when its initialization completes. The \texttt{trace} field is
+a regular expression that selects the processes whose system calls are
+recorded. Records converted from \genie additionally carry an
+\texttt{origin} field and the upstream \texttt{source} and
+\texttt{sw\_version} of the vulnerable software.
+
+The format imposes a small set of rules, checked at review time: every image
+is pinned by an \texttt{@sha256} digest; either \texttt{flag.value} and
+\texttt{flag.plant} are present, or the record declares a different success
+criterion; both phases are present; and addresses are static, so that
+captures are reproducible.
+
+\subsection{Success Criteria}
+
+\paragraph{The flag.}
+A flag is a short token of the form \texttt{CVEX\{}\textit{32 hex
+digits}\texttt{\}}, planted inside the target at a location, or behind a
+protection, that only the vulnerability can bypass. The secrecy of the flag
+comes from \emph{access control}, not from its being unknown: a legitimate
+user of the service cannot reach it, the benign client never sees it, and
+only a successful exploitation returns it. Because the flag is gated by
+access rather than by randomness, it can be a fixed value committed with the
+record, which keeps the reference dataset byte-reproducible. A runner may
+optionally generate a fresh flag for each run, to guard against an attack
+that simply hard-codes the expected value; the gating is what proves the
+exploitation either way.
+
+The location of the flag follows the class of the vulnerability, using a
+small set of standard placements (Table~\ref{tab:flags}). The
+\texttt{plant} field of the manifest names the location and, where relevant,
+the file mode, and \file{plant-flag.sh} installs the flag at container start.
+
+\begin{table}[t]
+\centering
+\caption{Standard flag placements by vulnerability class.}
+\label{tab:flags}
+\small
+\begin{tabular}{@{}p{0.36\columnwidth}p{0.56\columnwidth}@{}}
+\toprule
+\textbf{Class} & \textbf{Flag location} \\
+\midrule
+Command execution / injection & \file{/flag}, readable only by running a command on the target \\
+Path traversal / file read & a file outside the served directory \\
+File upload leading to execution & \file{/flag}, readable once uploaded content is executed \\
+SQL injection & a table row that the application never exposes \\
+Privilege escalation & \file{/root/flag}, owned by root, mode 0600 \\
+Local code execution / deserialization & \file{/flag} or an environment value not exposed by the normal interface \\
+Memory corruption (crash only) & none; a crash witness is used instead \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Capture channels.}
+The flag returned by the attack is detected on the channel that the record
+declares. With the \texttt{stdout} channel, the attack prints the flag, and
+the runner extracts it from the attack's output; this is the universal
+fallback, and the natural choice for local records. With the
+\texttt{network} channel, the runner searches for the flag in the attack
+packet capture, which also proves that the flag crossed the wire.
+
+\paragraph{The verifier.}
+Records converted from \genie use the \texttt{verifier} criterion. \genie
+produces, for each reproduced CVE, a verifier program in the style of a CTF
+checker: it sets up the vulnerable condition, runs the exploit, checks for
+the effect of the vulnerability, and prints a fixed flag if and only if the
+check passes. A \cvexthree record that declares \texttt{success: verifier}
+runs this program inside the target during the attack phase, and the runner
+accepts the reproduction if the verifier exits successfully and prints the
+flag. The verifier criterion extends the flag idea to vulnerabilities whose
+effect is not the disclosure of a secret, for example a parser that splits
+one request into two.
+
+\paragraph{The crash witness.}
+Some vulnerabilities, such as memory-corruption bugs that are reproduced only
+up to a crash, have no secret to read. For these, the record declares
+\texttt{success: crash}, and the flag is replaced by a \emph{crash witness}:
+the recorder confirms that a traced process terminated because of a signal,
+or produced a core dump, during the attack phase and not during the benign
+phase. This is the only deviation from the flag rule, and it is declared
+explicitly.
+
+In the current corpus, \NumFlag functional records use a planted flag
+(\NumChanStdout on the \texttt{stdout} channel and \NumChanNetwork on the
+\texttt{network} channel), \NumVerifier use a \genie verifier, and
+\NumCrash uses a crash witness.
+
+\subsection{Run Protocol}
+
+A record is run by the reference runner in two isolated phases, each starting
+from a \emph{pristine} target: the target containers are created fresh for
+each phase, so that neither run can contaminate the other.
+
+\begin{enumerate}
+\item \textbf{Build.} The runner builds (or pulls) the images.
+\item \textbf{Benign phase.} The runner starts the target (and database, if
+any) and the recorder, plants the flag, waits for the \texttt{ready}
+condition, starts the capture, runs the benign workload, stops the capture,
+and tears the containers down.
+\item \textbf{Attack phase.} The runner starts a fresh target and recorder,
+plants the flag, waits for readiness, starts the capture, runs the attack,
+collects the flag it emits, stops the capture, and tears the containers
+down.
+\item \textbf{Verify.} The runner compares the observed flag with the planted
+one (or evaluates the verifier or the crash witness) and writes the dataset
+and the verdict.
+\end{enumerate}
+
+The benign workload performs legitimate interactions with the same service
+and, where possible, with the same endpoints that the attack uses: a normal
+login, a normal search, a normal file request, a normal invocation of a tool.
+The two captures are therefore directly comparable: same images, same
+addresses, same target state at the start of the phase. Each phase is bounded
+by the wall-clock limit declared in the manifest.
+
+A second command reruns a record and compares the fresh dataset with the
+committed one, checking that the flags match and comparing the traffic after
+normalizing timestamps and ephemeral ports. Once a record has been verified in
+this way, it is locked: a lock file records the hash of the verified record,
+so that later modifications are detected.
+
+\subsection{The Recorder}
+
+The recorder is a single shared image. In \emph{sidecar} mode, it shares the
+network namespace and the process namespace of the target container. It runs
+\texttt{tcpdump} on the target's interfaces, including the loopback
+interface, so that it also captures traffic between processes inside the
+target, and it attaches \texttt{strace} to the processes selected by the
+\texttt{trace} expression, following their children. In \emph{gateway} mode,
+intended for multi-host records that use TLS, the recorder acts as the
+default gateway of the record's network, captures traffic on the bridge, and
+runs a transparent \texttt{mitmproxy} whose certificate authority is
+installed in the client and target images at build time, so that encrypted
+traffic can be decrypted reproducibly.
+
+\subsection{Dataset Layout}
+\label{sec:dataset}
+
+The output of a run is a self-contained dataset directory:
+
+\begin{lstlisting}
+dataset/
+  benign/
+    benign.pcap          # legitimate traffic
+    benign.syscalls.log  # system calls under normal use
+  attack/
+    attack.pcap          # attack traffic
+    attack.syscalls.log  # system calls during the attack
+  flag.observed          # the flag the attack retrieved
+  verdict.json           # criterion, channel, planted vs.
+                         # observed flag, success
+  MANIFEST.sha256        # content hashes of all files
+\end{lstlisting}
+
+For local records the packet captures may be empty or contain only loopback
+traffic, and the system-call traces carry most of the signal. The verdict
+records the success criterion, the capture channel, the planted and the
+observed flag, the outcome, and which captures are present.
+Listing~\ref{lst:verdict} shows the verdict of the privilege-escalation
+record discussed in Section~\ref{sec:examples}. The dataset is committed with
+the record and addressed by the hashes in \file{MANIFEST.sha256}, so that the
+reference captures survive even if the images can no longer be rebuilt.
+
+\begin{lstlisting}[float=t,caption={The \file{verdict.json} of a functional record.},label={lst:verdict}]
+{
+  "cve": "CVE-2023-22809",
+  "success": true,
+  "criterion": "flag",
+  "channel": "stdout",
+  "flag_planted":  "CVEX{9b8bb059600aa99e8a28eca00bb4ddef}",
+  "flag_observed": "CVEX{9b8bb059600aa99e8a28eca00bb4ddef}",
+  "benign": { "pcap": true, "syscalls": true },
+  "attack": { "pcap": true, "syscalls": true }
+}
+\end{lstlisting}
+
+\subsection{Reproducibility}
+
+The format pursues reproducibility at four levels. Builds are meant to be
+offline and pinned: base images are referenced by digest, and the vulnerable
+software is vendored into the record, so that the application layer can be
+built without network access. The runtime is pinned: a static subnet and
+static addresses, explicit readiness conditions, and a wall-clock limit. The
+flag is fixed and committed, so that reference captures are stable while
+still proving the exploitation. Finally, the reference dataset is committed
+and content-addressed.
+
+Not all of these properties hold yet for every record. Images are not yet
+pinned by digest, and records converted from \genie still download the
+vulnerable software at build time rather than vendoring it. Packet timing is
+not reproducible in any case: payloads and the order of exchanges are, and
+timing is normalized away when datasets are compared.
+
+\subsection{Limitations}
+
+Because containers share the host kernel, the format cannot reproduce
+vulnerabilities in the kernel itself, or in operating systems other than
+Linux; Section~\ref{sec:future} discusses an extension to virtual machines
+that shares the same manifest and dataset format. TLS interception assumes
+that the client and target trust the recorder's certificate authority, which
+is acceptable for research reproductions and is noted in each dataset.
+Finally, the realism of the benign phase is defined by the record's author:
+the value of the benign baseline depends on how representative the benign
+workload is, and reviewers should check that it exercises the same interface
+as the attack.
