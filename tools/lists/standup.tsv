@@ -1,0 +1,12 @@
+cve	service_up	flag_present	benign_ran	note
+CVE-2010-2861	True	True	True	
+CVE-2010-3863	True	True	True	
+CVE-2012-1823	True	True	True	
+CVE-2012-2122	True	True	True	
+CVE-2013-4547	True	True	True	
+CVE-2014-0160	True	True	True	
+CVE-2014-3120	True	True	True	
+CVE-2014-3704	True	True	True	
+CVE-2015-3337	ERR	-	-	
+CVE-2015-5254	True	True	True	
+CVE-2015-5531	ERR	-	-	
