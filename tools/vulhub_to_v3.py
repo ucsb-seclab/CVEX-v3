@@ -14,7 +14,7 @@ This installs the vulnerable service and the benign + flag halves; the attacker 
 left as TODO (see each record's TODO.md). Verify a record stands up with
   python3 tools/cvex_standup.py CVEX-records/<CVE>
 """
-import hashlib, re, shutil, sys
+import hashlib, json, re, shutil, sys
 from pathlib import Path
 import yaml
 
@@ -111,34 +111,55 @@ def convert(cvedir):
 
     # target: reuse the vulhub image, bake the flag in a new layer (entrypoint kept)
     t = rec / "target"
+    t.mkdir(parents=True, exist_ok=True)
     if pimg:
-        base = f"FROM {pimg}\n"
-        note = f"# vulhub image {pimg} (pre-built vulnerable service); entrypoint kept as-is.\n"
+        w(t / "Dockerfile",
+          f"# {cve}: vulnerable service from vulhub.\n"
+          f"# vulhub image {pimg} (pre-built vulnerable service); entrypoint kept as-is.\n"
+          "# The flag is baked at a gated path; only the vulnerability should expose it.\n"
+          f"FROM {pimg}\n"
+          f"RUN (echo '{flag}' > /flag && chmod 0644 /flag) || true\n")
     else:
-        # build-based vulhub service: vendor its build context
+        # build-based vulhub service: make target/ a self-contained build from the
+        # vulhub context (its own Dockerfile + files), then bake the flag at the end.
         bctx = pbuild if isinstance(pbuild, str) else (pbuild or {}).get("context", ".")
+        bdf = (pbuild or {}).get("dockerfile", "Dockerfile") if isinstance(pbuild, dict) else "Dockerfile"
         srcctx = (cvedir / bctx).resolve()
-        if srcctx.is_dir():
-            shutil.copytree(srcctx, t / "build", dirs_exist_ok=True)
-        base = "# TODO: this vulhub service is build-based; its context is under build/.\n# FROM ...\n"
-        note = "# build-based vulhub service (context vendored under target/build/).\n"
-    w(t / "Dockerfile",
-      f"# {cve}: vulnerable service from vulhub.\n" + note +
-      "# The flag is baked at a gated path; only the vulnerability should expose it.\n"
-      + base +
-      f"RUN (echo '{flag}' > /flag && chmod 0644 /flag) || true\n")
+        ctx_df = srcctx / bdf
+        if srcctx.is_dir() and ctx_df.exists():
+            for item in srcctx.iterdir():
+                dst = t / item.name
+                if item.is_dir():
+                    shutil.copytree(item, dst, dirs_exist_ok=True)
+                elif item.name != bdf:
+                    shutil.copy(item, dst)
+            df = ctx_df.read_text()
+            w(t / "Dockerfile",
+              f"# {cve}: vulnerable service from vulhub (build-based; context vendored here).\n"
+              + df.rstrip() + "\n"
+              f"# flag baked at a gated path\nRUN (echo '{flag}' > /flag && chmod 0644 /flag) || true\n")
+        else:
+            w(t / "Dockerfile",
+              f"# {cve}: TODO build-based vulhub service; context not found.\n"
+              f"FROM debian:12-slim\nRUN echo '{flag}' > /flag\n")
     w(t / "plant-flag.sh", f"#!/bin/sh\n# flag baked into the image at build time (/flag)\necho '{flag}'\n", 0o755)
 
+    def envlist(svc):
+        e = (svc or {}).get("environment") or []
+        if isinstance(e, dict):
+            e = [f"{k}={v}" for k, v in e.items()]
+        return [str(x) for x in e]
+
+    target_env = envlist(psvc)
+    db_alias = ""
+    db_env = []
     # auxiliary (db) service dir, if any -- a thin FROM wrapper so cvex can build it
     if aux:
         aname, asvc = aux[0]
         aimg = (asvc or {}).get("image", "")
-        env = (asvc or {}).get("environment") or []
-        envlines = ""
-        if isinstance(env, dict):
-            env = [f"{k}={v}" for k, v in env.items()]
-        for e in env:
-            envlines += f"ENV {str(e).replace('=', ' ', 1)}\n"
+        db_alias = aname           # the app connects to the db by this compose name
+        db_env = envlist(asvc)
+        envlines = "".join(f"ENV {e.replace('=', ' ', 1)}\n" for e in db_env)
         w(rec / "db" / "Dockerfile",
           f"# auxiliary service '{aname}' for {cve} (from the vulhub compose).\n"
           f"FROM {aimg}\n{envlines}" if aimg else
@@ -204,13 +225,21 @@ def convert(cvedir):
 
     # cvex.yml
     lo = cve.lower()
-    db_block = (f"  db:\n    image: cvex/{lo}-db:todo\n    ip: 10.13.0.11\n" if aux else "")
+    def yenv(items, indent):
+        if not items:
+            return ""
+        pad = " " * indent
+        return f"{pad}environment:\n" + "".join(f"{pad}  - {json.dumps(e)}\n" for e in items)
+    db_block = ""
+    if aux:
+        db_block = (f"  db:\n    image: cvex/{lo}-db:todo\n    ip: 10.13.0.11\n"
+                    f"    alias: {db_alias}\n" + yenv(db_env, 4))
     w(rec / "cvex.yml",
       f"cvex_version: 3\ncve: {cve}\ntopology: {topo}\nsource: vulhub\nnetwork:\n  subnet: 10.13.0.0/24\n\n"
       f'flag:\n  value: "{flag}"\n  plant: file:/flag\nsuccess: flag\n'
       f"capture:\n  flag_channel: network\n  tls_intercept: false\n  tls_ports: []\n\n"
       f"services:\n  target:\n    image: cvex/{lo}-target:todo    # FROM {pimg or 'build'} + flag\n"
-      f"    ip: 10.13.0.10\n    trace: \"\"\n    ready: \"tcp:{port}\"\n{db_block}\n"
+      f"    ip: 10.13.0.10\n    trace: \"\"\n    ready: \"tcp:{port}\"\n" + yenv(target_env, 4) + f"{db_block}\n"
       f"recorder:\n  image: cvex/{lo}-recorder:todo\n\n"
       f"phases:\n  benign:\n    client: benign\n    image: cvex/{lo}-benign:todo\n    ip: 10.13.0.30\n"
       f"  attack:\n    client: attacker\n    image: cvex/{lo}-attacker:todo\n    ip: 10.13.0.20\n\n"

@@ -38,6 +38,10 @@ class Standup:
         self.ready_file = ready.split(":", 1)[1] if ready.startswith("file:") else "/ready"
         self.port = int(ready.split(":")[1]) if ready.startswith("tcp:") else 80
         self.has_db = "db" in self.m.get("services", {})
+        self.target_env = self.m["services"]["target"].get("environment") or []
+        dbsvc = self.m.get("services", {}).get("db", {}) or {}
+        self.db_alias = dbsvc.get("alias") or "db"
+        self.db_env = dbsvc.get("environment") or []
         self.out = self.rec / "_out"
         self.names = []
 
@@ -67,7 +71,7 @@ class Standup:
         return name
 
     def wait_ready(self, tgt):
-        deadline = time.time() + 180
+        deadline = time.time() + 300
         while time.time() < deadline:
             st = dsh("inspect", "-f", "{{.State.Running}} {{.State.ExitCode}}", tgt).stdout.strip()
             if st.startswith("false") and not st.endswith(" 0"):
@@ -86,7 +90,7 @@ class Standup:
         dsh("network", "rm", self.NET)
 
     def wait_ready_file(self, tgt):
-        deadline = time.time() + 180
+        deadline = time.time() + 300
         while time.time() < deadline:
             st = dsh("inspect", "-f", "{{.State.Running}} {{.State.ExitCode}}", tgt).stdout.strip()
             if st.startswith("false") and not st.endswith(" 0"):
@@ -134,10 +138,17 @@ class Standup:
         self.out.mkdir()
         try:
             if self.has_db:
-                self.run_detached("db", ["--network", self.NET, "--ip", self.IP["db"], "--network-alias", "db"])
-                time.sleep(5)
-            tgt = self.run_detached("target", ["--network", self.NET, "--ip", self.IP["target"],
-                                               "--network-alias", "target", "--cap-add", "SYS_PTRACE"])
+                dbx = ["--network", self.NET, "--ip", self.IP["db"], "--network-alias", "db",
+                       "--network-alias", self.db_alias]
+                for e in self.db_env:
+                    dbx += ["-e", e]
+                self.run_detached("db", dbx)
+                time.sleep(15)   # let the database initialize before the app connects
+            tgtx = ["--network", self.NET, "--ip", self.IP["target"],
+                    "--network-alias", "target", "--cap-add", "SYS_PTRACE"]
+            for e in self.target_env:
+                tgtx += ["-e", e]
+            tgt = self.run_detached("target", tgtx)
             verdict["service_up"] = self.wait_ready(tgt)
             fr = dsh("exec", tgt, "sh", "-c", "cat /flag 2>/dev/null")
             verdict["flag_present"] = self.m["flag"]["value"] in fr.stdout
