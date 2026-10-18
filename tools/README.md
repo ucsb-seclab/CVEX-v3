@@ -1,11 +1,15 @@
 # CVEX v3 tooling
 
-Recovered/rebuilt CVEX v3 tools. They assume this layout (siblings on disk):
+Recovered/rebuilt CVEX v3 tools. They live in this repo (`CVEX-v3/tools/`) and
+locate the records by searching upward from the current directory for a
+`CVEX-records/` folder, so run them from a working tree laid out as:
 
 ```
-CVEX/
-  tools/            # these scripts (run them from here; ROOT is the parent dir)
-  CVEX-records/     # the records (clone of ucsb-seclab/CVEX-v3-records)
+work/
+  CVEX-v3/        # this repo (contains tools/)
+  CVEX-records/   # clone of ucsb-seclab/CVEX-v3-records
+  Historic/       # the historical CVEX repos (migration source), optional
+  tools -> CVEX-v3/tools   # convenience symlink, so `python3 tools/...` works
 ```
 
 Key scripts:

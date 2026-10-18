@@ -17,7 +17,18 @@ Does not build or run anything.
 import datetime, json, re, sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+def _work_root():
+    """Directory that contains CVEX-records/ (search upward from CWD, then from this file)."""
+    for base in (Path.cwd(), Path(__file__).resolve().parent):
+        d = base
+        while True:
+            if (d / "CVEX-records").is_dir():
+                return d
+            if d.parent == d:
+                break
+            d = d.parent
+    return Path(__file__).resolve().parent.parent
+ROOT = _work_root()
 RECS = ROOT / "CVEX-records"
 QUAR = ROOT / "CVEX_v3-unreproduced"
 GENIE = ROOT / "cve-genie" / "results" / "reproduced_cves"

@@ -1,7 +1,8 @@
 #!/bin/sh
 # Usage: tools/cvex_batch.sh [cve-list-file]   (default: all unlocked pip-tier records)
 # Runs each record; successes self-lock. Prints a SUCCESS/FAILED summary.
-cd "$(dirname "$0")/.."
+d="$PWD"; while [ "$d" != "/" ] && [ ! -d "$d/CVEX-records" ]; do d=$(dirname "$d"); done
+cd "$d"
 LIST="${1:-}"
 if [ -z "$LIST" ]; then
   LIST=/tmp/_cvex_pip.txt; : > "$LIST"

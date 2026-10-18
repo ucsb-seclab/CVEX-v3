@@ -1,6 +1,7 @@
 #!/bin/sh
 # Usage: cvex_quarantine.sh <CVE> "<reason>" [evidence-log]
-cd "$(dirname "$0")/.."
+d="$PWD"; while [ "$d" != "/" ] && [ ! -d "$d/CVEX-records" ]; do d=$(dirname "$d"); done
+cd "$d"
 cve="$1"; reason="$2"; log="$3"
 src="CVEX-records/$cve"; dst="CVEX_v3-unreproduced/$cve"
 [ -d "$src" ] || { echo "no such record $cve"; exit 1; }
