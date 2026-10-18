@@ -21,5 +21,5 @@ Key scripts:
   `cvex_quarantine.sh` — batch migration/triage helpers.
 - `conform10.py` — one-off generator for the 10 fully-conformant gold records.
 
-`migrate_to_v3.py` (gen-3 Vagrant -> v3) was lost in the Oct 2026 incident and is
-being rebuilt.
+`migrate_to_v3.py [CVE...]` scaffolds gen-3 (Vagrant/Ansible) records from
+`Historic/CVEX-records/` into v3 format (rewritten after the Oct 2026 incident).

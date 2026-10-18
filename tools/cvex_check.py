@@ -125,7 +125,8 @@ class Check:
         # every vendored file is listed in a SHA256SUMS that matches (or a hash lock)
         for vend in sorted(self.rec.glob("*/vendor")):
             for d in sorted([vend, *[p for p in vend.rglob("*") if p.is_dir()]]):
-                direct = [p for p in d.iterdir() if p.is_file() and p.name != "SHA256SUMS"]
+                direct = [p for p in d.iterdir() if p.is_file()
+                          and p.name not in ("SHA256SUMS", "debs.lock", "requirements.lock", "package-lock.json")]
                 if not direct or "npm-cache" in d.parts:
                     continue   # npm's cache is content-addressed and checked against package-lock.json
                 sums = d / "SHA256SUMS"
