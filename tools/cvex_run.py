@@ -87,6 +87,18 @@ class Runner:
                      "db" if self.topo == "target+db-attacker" else None):
             if comp and (self.rec / comp / "Dockerfile").exists():
                 tag = f"{self.ns}-{comp}"
+                # offline base: a vendored `docker save` tar loaded before the build, so
+                # `FROM cvex-base-<cve>:pinned` resolves locally without any registry.
+                base_tar = self.rec / "base-images" / f"{comp}.image.tar"
+                if base_tar.exists():
+                    sums = base_tar.parent / "SHA256SUMS"
+                    if sums.exists():
+                        c = subprocess.run(["sha256sum", "-c", "--quiet", "--ignore-missing", "SHA256SUMS"],
+                                           cwd=str(base_tar.parent), capture_output=True, text=True)
+                        if c.returncode != 0:
+                            raise RuntimeError(f"vendored base image checksum failed for {comp}:\n{c.stdout}{c.stderr}")
+                    print(f"  load vendored base for {comp} <- {base_tar.name}")
+                    dsh("load", "-i", str(base_tar), check=True)
                 print(f"  build {comp} -> {tag}" + (" (offline)" if self.offline else ""))
                 net = ["--network=none"] if self.offline else []
                 r = dsh("build", *net, "-t", tag, str(self.rec / comp))

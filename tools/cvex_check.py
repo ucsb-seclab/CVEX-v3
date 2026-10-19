@@ -112,7 +112,12 @@ class Check:
                 mo = re.match(r"^\s*FROM\s+(?:--platform=\S+\s+)?(\S+)(?:\s+AS\s+(\S+))?", line, re.I)
                 if mo:
                     img = mo.group(1)
-                    self.ok(S, img in stages or DIGEST.search(img), f"{comp}: base {img} pinned by digest")
+                    # a vendored `docker save` base (loaded offline before the build) counts
+                    # as pinned: FROM cvex-base-<cve>:pinned backed by base-images/<comp>.image.tar
+                    vb = self.rec / "base-images" / f"{comp}.image.tar"
+                    vendored_base = img.startswith("cvex-base-") and vb.exists()
+                    self.ok(S, img in stages or DIGEST.search(img) or vendored_base,
+                            f"{comp}: base {img} pinned (digest or vendored image)")
                     if mo.group(2):
                         stages.add(mo.group(2))
                 if line.lstrip().startswith("#"):
@@ -144,13 +149,27 @@ class Check:
                     self.ok(S, not bad, f"{rel}: requirements.lock pins every wheel by hash")
                 else:
                     self.ok(S, False, f"{rel}: vendored files have a SHA256SUMS")
+        # vendored base images (docker save tars loaded offline before the build)
+        bdir = self.rec / "base-images"
+        if bdir.exists():
+            tars = [p for p in bdir.iterdir() if p.suffix == ".tar"]
+            sums = bdir / "SHA256SUMS"
+            if sums.exists():
+                listed = {k.strip(): v for v, k in
+                          (l.split(None, 1) for l in sums.read_text().splitlines() if l.strip())}
+                bad = [p.name for p in tars if listed.get(p.name) != sha256(p)]
+                self.ok(S, tars and not bad, "base-images/: SHA256SUMS covers and matches every image tar"
+                        + (f" (mismatch: {', '.join(bad[:3])})" if bad else ""))
+            else:
+                self.ok(S, False, "base-images/: image tars have a SHA256SUMS")
 
     # ---------------------------------------------------------------- content
     def content(self):
         S = "content"
         topo = self.m.get("topology")
         todo = [str(p.relative_to(self.rec)) for p in files(self.rec)
-                if p.suffix not in (".deb", ".gz", ".tgz", ".whl")
+                if p.suffix not in (".deb", ".gz", ".tgz", ".whl", ".tar", ".zip", ".jar")
+                and "base-images" not in p.relative_to(self.rec).parts
                 and p.name not in ("STATUS.md", "TODO.md")
                 and re.search(r"\b(TODO|FIXME|XXX)\b", p.read_text(errors="replace"))]
         self.ok(S, not todo, "no TODO markers" + (f" ({', '.join(todo[:4])})" if todo else ""))
