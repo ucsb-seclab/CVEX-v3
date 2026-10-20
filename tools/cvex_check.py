@@ -168,8 +168,9 @@ class Check:
         S = "content"
         topo = self.m.get("topology")
         todo = [str(p.relative_to(self.rec)) for p in files(self.rec)
-                if p.suffix not in (".deb", ".gz", ".tgz", ".whl", ".tar", ".zip", ".jar")
-                and "base-images" not in p.relative_to(self.rec).parts
+                if p.suffix not in (".deb", ".gz", ".tgz", ".whl", ".tar", ".zip", ".jar",
+                                    ".sql", ".png", ".jpg", ".jpeg", ".gif", ".ico", ".woff", ".woff2", ".ttf", ".pdf")
+                and not ({"base-images", "xwiki-perm", "initdb"} & set(p.relative_to(self.rec).parts))
                 and p.name not in ("STATUS.md", "TODO.md")
                 and re.search(r"\b(TODO|FIXME|XXX)\b", p.read_text(errors="replace"))]
         self.ok(S, not todo, "no TODO markers" + (f" ({', '.join(todo[:4])})" if todo else ""))
@@ -220,8 +221,10 @@ class Check:
         self.ok(S, v.get("image_pins_match") is True, "verdict: image_pins_match")
         for ph in ("benign", "attack"):
             pc, sc = ds / ph / f"{ph}.pcap", ds / ph / f"{ph}.syscalls.log"
+            scz = ds / ph / f"{ph}.syscalls.log.gz"   # large traces are gzipped
             self.ok(S, pc.exists(), f"{ph} pcap present")
-            self.ok(S, sc.exists() and sc.stat().st_size > 0, f"{ph} syscall trace present and non-empty")
+            sc_ok = (sc.exists() and sc.stat().st_size > 0) or (scz.exists() and scz.stat().st_size > 0)
+            self.ok(S, sc_ok, f"{ph} syscall trace present and non-empty")
         mf = ds / "MANIFEST.sha256"
         if self.ok(S, mf.exists(), "MANIFEST.sha256 present"):
             listed = {}

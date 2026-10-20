@@ -65,6 +65,7 @@ class Runner:
                       for a in ("--security-opt", str(o))]
         self.offline = bool((self.m.get("build") or {}).get("offline"))
         self.ready = str(self.m["services"]["target"].get("ready", "") or "")
+        self.db_warmup = int((self.m.get("limits") or {}).get("db_warmup_seconds", 30) or 30)
         self.limit = int((self.m.get("limits") or {}).get("wall_clock_seconds", 0) or 0) or None
         self.image_ids = {}
         self.ns = f"cvex-{self.cve.lower()}"
@@ -224,13 +225,22 @@ class Runner:
         print(f"  [{which}] starting target + recorder")
         self.net_up()
         (self.out).mkdir(exist_ok=True)
+        # db first (a DB-backed target may fail/stall if its database isn't up yet;
+        # a db image that imports a dump needs time before it accepts connections)
+        if self.topo == "target+db-attacker":
+            dbsvc = self.m.get("services", {}).get("db", {}) or {}
+            db_alias = dbsvc.get("alias") or "db"
+            dbx = ["--network", NET, "--ip", IP["db"], "--network-alias", "db",
+                   "--network-alias", db_alias, "-e", f"CVEX_FLAG={self.flag}"]
+            for e in (dbsvc.get("environment") or []):
+                dbx += ["-e", str(e)]
+            self.run_detached("db", dbx)
+            time.sleep(self.db_warmup)
         # target
         tgt = self.run_detached("target",
               ["--network", NET, "--ip", IP["target"], "--network-alias", "target",
-               *self.caps, "-e", f"CVEX_FLAG={self.flag}"])
-        if self.topo == "target+db-attacker":
-            self.run_detached("db", ["--network", NET, "--ip", IP["db"],
-                                     "--network-alias", "db", "-e", f"CVEX_FLAG={self.flag}"])
+               *self.caps, "-e", f"CVEX_FLAG={self.flag}",
+               *sum((["-e", str(e)] for e in (self.m["services"]["target"].get("environment") or [])), [])])
         self.wait_ready(tgt)
         # recorder shares target net + pid ns
         rname = f"{self.ns}-recorder"
@@ -306,7 +316,14 @@ class Runner:
             for suf, dst in ((".pcap", f"{ph}.pcap"), (".syscalls.log", f"{ph}.syscalls.log")):
                 src = self.out / f"{ph}{suf}"
                 if src.exists():
-                    shutil.copy(src, ds / ph / dst)
+                    # syscall traces can be huge for slow-booting JVM apps; gzip them so the
+                    # committed dataset stays lean (cvex_check accepts .log or .log.gz).
+                    if suf == ".syscalls.log" and src.stat().st_size > 20 * 2**20:
+                        import gzip as _gz
+                        with open(src, "rb") as fi, _gz.open(str(ds / ph / dst) + ".gz", "wb", compresslevel=6) as fo:
+                            shutil.copyfileobj(fi, fo)
+                    else:
+                        shutil.copy(src, ds / ph / dst)
 
         arc = None
         mo = re.search(r"CVEX_RC=(\d+)", a_out)
