@@ -6,7 +6,7 @@ quarantined) is in [`EXISTING_RECORDS.txt`](EXISTING_RECORDS.txt). Records live
 in the `ucsb-seclab/CVEX-v3-records` repo; the tooling is in
 [`tools/`](tools/README.md).
 
-_Last updated: 2026-10-19._
+_Last updated: 2026-10-20._
 
 ---
 
@@ -14,8 +14,8 @@ _Last updated: 2026-10-19._
 
 | | count |
 |---|---|
-| **Total records** | **691** |
-| Active | 656 |
+| **Total records** | **692** |
+| Active | 657 |
 | Quarantined (`CVEX-records/quarantine/`) | 35 |
 
 By origin:
@@ -25,6 +25,7 @@ By origin:
 | **cve-genie** | 429 | CVE-Genie reproductions (394 active + 35 quarantined) |
 | **vulhub** | 238 | vulhub environments |
 | **curated** | 24 | hand-built from the historical CVEX corpus (gen-3 Vagrant) |
+| **manual** | 1 | newly authored (CVE-2025-24893, XWiki) |
 
 ---
 
