@@ -22,7 +22,7 @@ while read rec; do
     cp "$LOG" "$REPO/VERIFY_RESULTS.tsv"; git -C "$REPO" add VERIFY_RESULTS.tsv 2>/dev/null
     push "verify $cve (PASS)"
   else
-    note=$(tail -1 "/tmp/verify_$cve.log" 2>/dev/null | tr -d '\t' | cut -c1-80)
+    note=$(grep -iE "error|refused|not found|no such|exception|traceback|cannot|abort|connection|no-verifier|exit status" "/tmp/verify_$cve.log" 2>/dev/null | grep -ivE "warning" | tail -1 | tr -d "\t" | cut -c1-100)
     printf "%s\tfailed\t%s\n" "$cve" "$note" >> "$LOG"
     git -C "$REPO" checkout -- "$cve" 2>/dev/null; git -C "$REPO" clean -fdq "$cve" 2>/dev/null
   fi
