@@ -86,13 +86,13 @@ INSTALL = {
 
 TOOLCHAIN = {
     "python": "RUN apt-get update && apt-get install -y --no-install-recommends gcc python3-dev strace ca-certificates tar && rm -rf /var/lib/apt/lists/*\n",
-    "node": "RUN apt-get update && apt-get install -y --no-install-recommends python3 strace ca-certificates git tar && rm -rf /var/lib/apt/lists/*\n",
-    "go": "RUN apt-get update && apt-get install -y --no-install-recommends python3 strace ca-certificates tar && rm -rf /var/lib/apt/lists/*\n",
-    "java": "RUN apt-get update && apt-get install -y --no-install-recommends python3 strace ca-certificates maven tar && rm -rf /var/lib/apt/lists/*\n",
-    "rust": "RUN apt-get update && apt-get install -y --no-install-recommends python3 strace ca-certificates tar && rm -rf /var/lib/apt/lists/*\n",
-    "php": "RUN apt-get update && apt-get install -y --no-install-recommends python3 strace ca-certificates git tar && rm -rf /var/lib/apt/lists/*\n",
+    "node": "RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-pip strace ca-certificates git tar && rm -rf /var/lib/apt/lists/*\n",
+    "go": "RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-pip strace ca-certificates tar && rm -rf /var/lib/apt/lists/*\n",
+    "java": "RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-pip strace ca-certificates maven tar && rm -rf /var/lib/apt/lists/*\n",
+    "rust": "RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-pip strace ca-certificates tar && rm -rf /var/lib/apt/lists/*\n",
+    "php": "RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-pip strace ca-certificates git tar && rm -rf /var/lib/apt/lists/*\n",
     "c": "RUN apt-get update && apt-get install -y --no-install-recommends build-essential cmake pkg-config git python3 strace ca-certificates tar && rm -rf /var/lib/apt/lists/*\n",
-    "unknown": "RUN apt-get update && apt-get install -y --no-install-recommends python3 strace ca-certificates git tar && rm -rf /var/lib/apt/lists/*\n",
+    "unknown": "RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-pip strace ca-certificates git tar && rm -rf /var/lib/apt/lists/*\n",
 }
 
 TRACE = {"python": "python", "node": "node", "go": "", "java": "java",
@@ -143,6 +143,9 @@ def convert(gdir):
       f"FROM {BASE[stack]}\n" + TOOLCHAIN[stack] +
       "WORKDIR /work\n" + fetch +
       f"WORKDIR {workdir}\n" + INSTALL[stack] +
+      "# the CVE-Genie verifier is a python script; install its common runtime dep (requests)\n"
+      "RUN (python3 -m pip install --no-cache-dir --break-system-packages requests 2>/dev/null \\\n"
+      "      || python3 -m pip install --no-cache-dir requests 2>/dev/null || true)\n"
       "COPY plant-flag.sh /usr/local/bin/plant-flag.sh\n"
       + ("COPY exploit.py verifier.py ./\n" if have_scripts else "") +
       "COPY attack.sh benign.sh /\n"
