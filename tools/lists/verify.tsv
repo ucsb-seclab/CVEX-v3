@@ -1,0 +1,395 @@
+cve	result	note
+CVE-2024-0520	VERIFIED	
+CVE-2024-11042	VERIFIED	
+CVE-2024-11168	failed	FAILED
+CVE-2024-0787	failed	FAILED
+CVE-2024-10718	VERIFIED	
+CVE-2024-10720	failed	FAILED
+CVE-2024-10361	failed	FAILED
+CVE-2024-13183	failed	FAILED
+CVE-2024-21529	failed	FAILED
+CVE-2024-10525	failed	FAILED
+CVE-2024-36127	failed	FAILED
+CVE-2024-38517	failed	FAILED
+CVE-2024-21546	failed	FAILED
+CVE-2024-41811	failed	FAILED
+CVE-2024-42355	failed	FAILED
+CVE-2024-25638	VERIFIED	
+CVE-2024-39302	failed	FAILED
+CVE-2024-52286	failed	FAILED
+CVE-2024-36400	VERIFIED	
+CVE-2024-37298	VERIFIED	
+CVE-2024-37904	failed	FAILED
+CVE-2024-11958	failed	subprocess.CalledProcessError: Command '['/usr/local/bin/python3', 'prepare_db.py']' returned non-ze
+CVE-2024-12029	failed	
+CVE-2024-12433	VERIFIED	
+CVE-2024-12704	failed	
+CVE-2024-12720	VERIFIED	
+CVE-2024-12909	failed	ModuleNotFoundError: No module named 'llama_index'
+CVE-2024-12910	failed	[-] Exploit did not trigger RecursionError – verification failed
+CVE-2024-21535	failed	[!] Could not execute exploit: Command '['/usr/bin/python3', '/work/markdown-to-jsx-7.3.2/exploit.py
+CVE-2024-21537	failed	Error: Cannot find module './dist'
+CVE-2024-21538	failed	
+CVE-2024-21542	VERIFIED	
+CVE-2024-24759	failed	
+CVE-2024-2914	VERIFIED	
+CVE-2024-2928	failed	KeyError: 'experiment_id'
+CVE-2024-3219	failed	[-] Vulnerable interpreter not found at install/bin/python3.8
+CVE-2024-3408	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=40000): Max retries e
+CVE-2024-35225	failed	
+CVE-2024-36128	failed	FileNotFoundError: [Errno 2] No such file or directory: 'directus-project'
+CVE-2024-3651	failed	
+CVE-2024-37166	VERIFIED	
+CVE-2024-37168	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', 'h2'
+CVE-2024-37301	VERIFIED	
+CVE-2024-37312	VERIFIED	
+CVE-2024-39305	failed	FileNotFoundError: [Errno 2] No such file or directory: '/work/envoy-1.30.0/envoy_cookie_vuln.yaml'
+CVE-2024-39317	VERIFIED	
+CVE-2024-39690	failed	FileNotFoundError: [Errno 2] No such file or directory: 'kubectl'
+CVE-2024-39700	failed	
+CVE-2024-39903	failed	RuntimeError: Could not start Solara server
+CVE-2024-39917	failed	subprocess.CalledProcessError: Command '['./bootstrap']' returned non-zero exit status 1.
+CVE-2024-39918	failed	[!] Could not reach the vulnerable server on /ping – aborting.
+CVE-2024-4032	failed	[verifier] vulnerable interpreter not found at /work/cpython-3.8.19/python
+CVE-2024-40630	failed	Verifier error: Cannot find build/bin/oiiotool
+CVE-2024-40637	failed	
+CVE-2024-41124	VERIFIED	
+CVE-2024-41127	VERIFIED	
+CVE-2024-41131	failed	
+CVE-2024-41132	failed	[-] repro directory not found – nothing to verify
+CVE-2024-41655	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', 'exploit.py', ')|^.{23}(a+)+$| Kit |(aa
+CVE-2024-41672	VERIFIED	
+CVE-2024-41816	failed	subprocess.CalledProcessError: Command 'wp --path=wordpress post create --allow-root --post_type=pag
+CVE-2024-41820	failed	/bin/sh: 1: kubectl: not found
+CVE-2024-41946	failed	
+CVE-2024-41950	VERIFIED	
+CVE-2024-41965	failed	[-] ./src/vim not found or not executable
+CVE-2024-42356	failed	[!] Required tool “Composer (PHP package manager)” not found in PATH.
+CVE-2024-42358	failed	[-] Failed to fetch PoC font: Remote end closed connection without response
+CVE-2024-42367	failed	
+CVE-2024-42368	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', 'req
+CVE-2024-42370	VERIFIED	
+CVE-2024-42482	failed	[!] exploit.py exited with error status: 1
+CVE-2024-42485	failed	urllib.error.URLError: <urlopen error [Errno 111] Connection refused>
+CVE-2024-43367	failed	FileNotFoundError: [Errno 2] No such file or directory: 'cargo'
+CVE-2024-43369	failed	[!] composer install failed or composer not found
+CVE-2024-43380	VERIFIED	
+CVE-2024-43399	VERIFIED	
+CVE-2024-4340	VERIFIED	
+CVE-2024-43404	VERIFIED	
+CVE-2024-43410	failed	Verifier error: [Errno 2] No such file or directory: 'cargo'
+CVE-2024-4343	VERIFIED	
+CVE-2024-43787	failed	
+CVE-2024-43788	failed	
+CVE-2024-43790	VERIFIED	
+CVE-2024-45041	failed	FileNotFoundError: [Errno 2] No such file or directory: 'kubectl'
+CVE-2024-45054	failed	FileNotFoundError: [Errno 2] No such file or directory: 'kubectl'
+CVE-2024-45296	VERIFIED	
+CVE-2024-45298	failed	[!] database.sqlite not found – Wiki.js not running?
+CVE-2024-45310	failed	[!] ./runc binary (or stub) not found or not executable
+CVE-2024-45337	failed	FileNotFoundError: [Errno 2] No such file or directory: 'go'
+CVE-2024-45390	VERIFIED	
+CVE-2024-45394	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', 'pyc
+CVE-2024-45409	failed	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2024-45411	failed	[-] composer not found and vendor/ missing – cannot continue.
+CVE-2024-45803	failed	FileNotFoundError: [Errno 2] No such file or directory: 'testapp'
+CVE-2024-45811	failed	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('/work/vite-5.4.0/vite-repro')
+CVE-2024-45813	VERIFIED	
+CVE-2024-46989	VERIFIED	
+CVE-2024-46990	failed	
+CVE-2024-47063	VERIFIED	
+CVE-2024-47067	failed	[-] server did not come up – aborting.
+CVE-2024-47068	failed	[-] Bundle not found at /work/rollup-3.0.0/poc/bundle.js
+CVE-2024-47182	failed	[verifier] users.yml not found at data/users.yml
+CVE-2024-47530	failed	[!] Could not contact Scout instance: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries e
+CVE-2024-47531	failed	cannot load library 'libcairo-2.dll': libcairo-2.dll: cannot open shared object file: No such file o
+CVE-2024-47533	failed	ConnectionRefusedError: [Errno 111] Connection refused
+CVE-2024-47609	failed	FileNotFoundError: [Errno 2] No such file or directory: 'cargo'
+CVE-2024-47611	failed	FileNotFoundError: [Errno 2] No such file or directory: 'wine64'
+CVE-2024-47764	VERIFIED	
+CVE-2024-47765	failed	FileNotFoundError: [Errno 2] No such file or directory: 'composer'
+CVE-2024-47814	failed	FileNotFoundError: [Errno 2] No such file or directory: './src/vim'
+CVE-2024-47818	failed	
+CVE-2024-47822	failed	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('my-project')
+CVE-2024-47827	VERIFIED	
+CVE-2024-47877	VERIFIED	
+CVE-2024-47888	failed	[-] Ruby interpreter not found – cannot verify.
+CVE-2024-47889	failed	[-] Baseline run failed; aborting.
+CVE-2024-48911	failed	[-] Failed to open /etc/opencanaryd/opencanary.conf for reading ([Errno 2] No such file or directory
+CVE-2024-48914	failed	
+CVE-2024-48924	failed	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('/work/MessagePack-CSharp-2.5.172/
+CVE-2024-48930	VERIFIED	
+CVE-2024-48990	failed	FileNotFoundError: [Errno 2] No such file or directory: 'sudo'
+CVE-2024-49369	failed	
+CVE-2024-49750	failed	
+CVE-2024-49762	failed	[!] Cannot find log file: /var/log/nginx/panel-access.log
+CVE-2024-49768	VERIFIED	
+CVE-2024-49770	failed	FileNotFoundError: [Errno 2] No such file or directory: 'deno'
+CVE-2024-50340	failed	FileNotFoundError: [Errno 2] No such file or directory: '/work/symfony-5.4.45/demo'
+CVE-2024-50341	failed	[!] python-requests not available – aborting.
+CVE-2024-50342	VERIFIED	
+CVE-2024-50343	failed	[!] test-validator/composer.json missing – abort
+CVE-2024-50349	VERIFIED	
+CVE-2024-50353	failed	FileNotFoundError: [Errno 2] No such file or directory: 'dotnet'
+CVE-2024-51491	failed	FileNotFoundError: [Errno 2] No such file or directory: 'sudo'
+CVE-2024-51737	failed	FileNotFoundError: [Errno 2] No such file or directory: 'cmake'
+CVE-2024-51744	VERIFIED	
+CVE-2024-51749	VERIFIED	
+CVE-2024-51753	failed	
+CVE-2024-51754	failed	[-] Composer binary not found in PATH.
+CVE-2024-51755	failed	FileNotFoundError: [Errno 2] No such file or directory: 'composer'
+CVE-2024-51757	VERIFIED	
+CVE-2024-5182	failed	[!] Error contacting http://localhost:8080/models/apply: <urlopen error [Errno 111] Connection refus
+CVE-2024-51996	failed	
+CVE-2024-52303	failed	ERROR: aiohttp test server did not start.
+CVE-2024-52304	failed	
+CVE-2024-52305	failed	
+CVE-2024-52516	failed	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2024-52517	failed	
+CVE-2024-52522	failed	[-] exploit.py terminated with an error
+CVE-2024-52524	VERIFIED	
+CVE-2024-52581	VERIFIED	
+CVE-2024-52584	failed	FileNotFoundError: [Errno 2] No such file or directory: 'pkill'
+CVE-2024-52596	failed	
+CVE-2024-52798	VERIFIED	
+CVE-2024-52804	VERIFIED	
+CVE-2024-52806	failed	FileNotFoundError: [Errno 2] No such file or directory: 'composer'
+CVE-2024-52809	failed	[verifier] Failed to prepare environment: Command '['npm', 'install', '--silent', 'vue-i18n@10.0.4',
+CVE-2024-52810	VERIFIED	
+CVE-2024-53271	failed	FileNotFoundError: [Errno 2] No such file or directory: '/usr/local/bin/envoy-1.31.0'
+CVE-2024-53847	VERIFIED	
+CVE-2024-53849	VERIFIED	
+CVE-2024-53985	failed	FileNotFoundError: [Errno 2] No such file or directory: 'bundle'
+CVE-2024-53986	failed	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2024-53987	failed	FileNotFoundError: [Errno 2] No such file or directory: 'bundle'
+CVE-2024-53988	failed	FileNotFoundError: [Errno 2] No such file or directory: 'bundle'
+CVE-2024-53989	failed	[!] Bundler binary not found – Ruby/Bundler missing?
+CVE-2024-54133	failed	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2024-54140	failed	[-] sigstore-cli (vulnerable version) not found at 'cli-dist/bin/sigstore-cli'. Build it first.
+CVE-2024-54150	failed	[-] build/libcjwt.so not found – did you build the project?
+CVE-2024-54151	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', 'websockets']' 
+CVE-2024-54152	VERIFIED	
+CVE-2024-55655	failed	[-] manipulated_bundle_v3.json not found — aborting
+CVE-2024-55660	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', 'requests']' re
+CVE-2024-5569	VERIFIED	
+CVE-2024-56362	failed	ModuleNotFoundError: No module named 'jwt'
+CVE-2024-56406	failed	Verifier error: vulnerable './perl' binary not found or not executable.
+CVE-2024-56734	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', 'requests']' re
+CVE-2024-6232	failed	Verifier error: vulnerable ./python not found or not executable.
+CVE-2024-6587	failed	
+CVE-2024-6923	VERIFIED	
+CVE-2024-7592	VERIFIED	
+CVE-2024-8005	failed	ModuleNotFoundError: No module named 'jwt'
+CVE-2024-8088	failed	[!] Vulnerable interpreter not found at /work/cpython-3.8.19/venv/bin/python3
+CVE-2024-8248	failed	
+CVE-2024-8572	failed	FileNotFoundError: [Errno 2] No such file or directory: 'go'
+CVE-2024-8946	failed	make: *** [../../py/mkrules.mk:253: submodules] Error 128
+CVE-2024-8948	failed	[-] MicroPython binary not found at ports/unix/build-standard/micropython
+CVE-2024-9287	failed	[!] Vulnerable interpreter not found at pybuild/bin/python3
+CVE-2024-9606	failed	
+CVE-2025-0311	failed	[-] exploit.py failed to execute: Command '['/usr/bin/python3', '/work/themeisle-companion-2.10.43/e
+CVE-2025-0454	failed	
+CVE-2025-0938	VERIFIED	
+CVE-2025-1194	failed	subprocess.CalledProcessError: Command '['/usr/local/bin/python3', '-m', 'pip', 'install', '--no-cac
+CVE-2025-1215	failed	FileNotFoundError: [Errno 2] No such file or directory: '/work/vim-9.1.1096/src/vim'
+CVE-2025-1302	VERIFIED	
+CVE-2025-1473	failed	RuntimeError: Failed to start vulnerable MLflow server
+CVE-2025-1497	VERIFIED	
+CVE-2025-1584	failed	[!] Cannot find demo jar at /work/solon-3.0.0/demo-app/target/solon-demo-1.0-SNAPSHOT.jar
+CVE-2025-1716	failed	FileNotFoundError: [Errno 2] No such file or directory: '/work/picklescan-0.0.20/tests/data/exploit.
+CVE-2025-1752	failed	ModuleNotFoundError: No module named 'llama_index'
+CVE-2025-1795	VERIFIED	
+CVE-2025-1944	failed	ModuleNotFoundError: No module named 'torch'
+CVE-2025-1945	failed	ModuleNotFoundError: No module named 'torch'
+CVE-2025-21607	failed	
+CVE-2025-21609	failed	
+CVE-2025-21612	failed	
+CVE-2025-22149	VERIFIED	
+CVE-2025-22150	failed	[-] No boundary observed ‑ aborting.
+CVE-2025-22605	VERIFIED	
+CVE-2025-22615	failed	[!] PHP interpreter not available – abort.
+CVE-2025-23027	VERIFIED	
+CVE-2025-23030	failed	
+CVE-2025-23034	failed	[!] Python module 'requests' not found.
+CVE-2025-23047	failed	
+CVE-2025-23207	VERIFIED	
+CVE-2025-23218	failed	FileNotFoundError: [Errno 2] No such file or directory: 'mysql'
+CVE-2025-23219	failed	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2025-23220	failed	FileNotFoundError: [Errno 2] No such file or directory: 'mysql'
+CVE-2025-24013	failed	RuntimeError: php server terminated unexpectedly.
+CVE-2025-24017	VERIFIED	
+CVE-2025-24018	VERIFIED	
+CVE-2025-24030	failed	[!] Port 19001 on 127.0.0.1 is not open. Envoy may not be running ‑ aborting.
+CVE-2025-24355	failed	
+CVE-2025-24356	failed	
+CVE-2025-24357	failed	ModuleNotFoundError: No module named 'torch'
+CVE-2025-24358	failed	FileNotFoundError: [Errno 2] No such file or directory: 'go'
+CVE-2025-24360	VERIFIED	
+CVE-2025-24362	VERIFIED	
+CVE-2025-24374	failed	[-] Failed to run exploit: exploit.py exited with an error
+CVE-2025-24788	failed	[-] Command '['/usr/bin/python3', 'exploit.py', 'VERIFIER-91e90d2c-65fe-496c-bd83-329c2d7d1b91']' re
+CVE-2025-24789	failed	
+CVE-2025-24790	VERIFIED	
+CVE-2025-24791	VERIFIED	
+CVE-2025-24793	failed	ModuleNotFoundError: No module named 'pandas'
+CVE-2025-24794	failed	subprocess.CalledProcessError: Command '['/usr/local/bin/python3', '-m', 'pip', 'install', '.', '--q
+CVE-2025-24795	failed	ModuleNotFoundError: No module named 'jwt'
+CVE-2025-24805	VERIFIED	
+CVE-2025-24882	failed	[*] regctl binary not found – building vulnerable CLI…
+CVE-2025-24962	failed	
+CVE-2025-24963	VERIFIED	
+CVE-2025-24976	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', 'pyj
+CVE-2025-24981	failed	
+CVE-2025-25184	failed	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2025-25186	failed	
+CVE-2025-25205	failed	RuntimeError: Could not start Audiobookshelf server.
+CVE-2025-25283	VERIFIED	
+CVE-2025-25285	VERIFIED	
+CVE-2025-25287	failed	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2025-25288	VERIFIED	
+CVE-2025-25289	failed	FileNotFoundError: [Errno 2] No such file or directory: 'demo'
+CVE-2025-25292	failed	
+CVE-2025-25293	VERIFIED	
+CVE-2025-25304	failed	Error: Cannot find module './packages/vega-selections/build/vega-selection.js'
+CVE-2025-2592	failed	FileNotFoundError: [Errno 2] No such file or directory: './build/bin/assimp'
+CVE-2025-26619	failed	
+CVE-2025-27112	failed	FileNotFoundError: [Errno 2] No such file or directory: './navidrome'
+CVE-2025-27144	VERIFIED	
+CVE-2025-27417	failed	
+CVE-2025-27418	failed	[-] Failed to contact target endpoint: <urlopen error [Errno 111] Connection refused>
+CVE-2025-27507	failed	[verifier] cannot find token file at tmp/admin-pat.txt
+CVE-2025-27520	failed	
+CVE-2025-27591	failed	FileNotFoundError: [Errno 2] No such file or directory: '/tmp/below_verifier_target_30' -> '/var/log
+CVE-2025-27597	failed	Cannot locate exploit directory – verifier must be run from repository root.
+CVE-2025-27607	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3.13', 'setup.py', 'bdist_wheel', '--dist-d
+CVE-2025-27610	failed	FileNotFoundError: [Errno 2] No such file or directory: 'bundle'
+CVE-2025-27617	failed	subprocess.CalledProcessError: Command '['php', '-r', '\nrequire getcwd() . \'/vendor/autoload.php\'
+CVE-2025-27773	VERIFIED	
+CVE-2025-27793	failed	"[-] Failed to execute exploit.py: Command '['python3', 'exploit.py', 'console.log(""VERIF_a372956e942"
+CVE-2025-27794	VERIFIED	
+CVE-2025-29768	failed	FileNotFoundError: [Errno 2] No such file or directory: './src/vim'
+CVE-2025-29769	failed	ModuleNotFoundError: No module named 'pyvips'
+CVE-2025-29774	failed	
+CVE-2025-29775	VERIFIED	
+CVE-2025-29907	VERIFIED	
+CVE-2025-29914	failed	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('poc')
+CVE-2025-29923	failed	[verifier] Failed to start redis-server: redis-server binary not found in PATH
+CVE-2025-29930	failed	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2025-30144	failed	[!] Verifier encountered an error: Timeout waiting for 127.0.0.1:3001
+CVE-2025-3015	failed	FileNotFoundError: [Errno 2] No such file or directory: 'build/bin/assimp'
+CVE-2025-30153	failed	[!] server binary not found – aborting
+CVE-2025-30154	failed	
+CVE-2025-30158	failed	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2025-3016	failed	[-] vulnerable binary not found: build/bin/assimp
+CVE-2025-30204	failed	FileNotFoundError: [Errno 2] No such file or directory
+CVE-2025-30208	VERIFIED	
+CVE-2025-30212	failed	ModuleNotFoundError: No module named 'click'
+CVE-2025-30221	failed	Verifier error: [Errno 2] No such file or directory: 'gem'
+CVE-2025-30222	VERIFIED	
+CVE-2025-30357	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', '--u
+CVE-2025-30358	failed	
+CVE-2025-30370	failed	FileNotFoundError: [Errno 2] No such file or directory: 'git'
+CVE-2025-31120	failed	ModuleNotFoundError: No module named 'pymysql'
+CVE-2025-31125	failed	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('/work/vite-6.2.0/exploit-app')
+CVE-2025-31131	failed	
+CVE-2025-31135	VERIFIED	
+CVE-2025-31138	failed	FileNotFoundError: [Errno 2] No such file or directory: 'node'
+CVE-2025-31476	VERIFIED	
+CVE-2025-31479	failed	Exploit failed – token not found in output.
+CVE-2025-31486	failed	[verifier] cannot locate Vite project directory 'vulnerable-vite'
+CVE-2025-31492	failed	ConnectionRefusedError: [Errno 111] Connection refused
+CVE-2025-3160	failed	
+CVE-2025-32014	failed	subprocess.CalledProcessError: Command '['node', '--input-type=module', '-e', '\nimport { valueToEst
+CVE-2025-32025	failed	FileNotFoundError: [Errno 2] No such file or directory: 'go'
+CVE-2025-32386	failed	FileNotFoundError: [Errno 2] No such file or directory: './bin/helm'
+CVE-2025-32387	failed	[-] Failed to build Helm; cannot verify exploit.
+CVE-2025-32395	failed	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('/work/vite-6.2.0/vulnerable-vite'
+CVE-2025-32428	failed	ModuleNotFoundError: No module named 'jupyter_server'
+CVE-2025-32441	failed	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2025-32442	failed	Error: Cannot find module '/work/fastify-5.0.0/reproduce.js'
+CVE-2025-32445	failed	FileNotFoundError: [Errno 2] No such file or directory: 'kubectl'
+CVE-2025-43855	failed	[!] Setup failed: [Errno 2] No such file or directory: PosixPath('/work/trpc-11.0.0/vulnerable-serve
+CVE-2025-46326	failed	FileNotFoundError: [Errno 2] No such file or directory: 'dotnet'
+CVE-2025-46327	VERIFIED	
+CVE-2025-46328	VERIFIED	
+CVE-2025-46336	failed	[!] ruby-bundler not found in PATH
+CVE-2025-46337	failed	
+CVE-2025-46344	VERIFIED	
+CVE-2025-46549	failed	[!] router.php was not found in /work/yeswiki-4.5.3
+CVE-2025-46550	failed	[Verifier] ERROR: exploit.py failed to run (Command '['python3', 'exploit.py', '<svg id=XSS_PAYLOAD_
+CVE-2025-46551	failed	[-] jruby-9.3.4.0 binary dir not found at /work/jruby-openssl-0.12.1/jruby-9.3.4.0/bin
+CVE-2025-46553	VERIFIED	
+CVE-2025-46565	failed	
+CVE-2025-46569	failed	FileNotFoundError: [Errno 2] No such file or directory: './opa_linux_amd64'
+CVE-2025-46573	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', 'exploit.py', '9dhccc1gk2@example.com']
+CVE-2025-46727	failed	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2025-46728	failed	FileNotFoundError: [Errno 2] No such file or directory: 'vulnerable_server.cc'
+CVE-2025-46730	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries ex
+CVE-2025-46816	failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', 'web
+CVE-2025-46820	VERIFIED	
+CVE-2025-47274	VERIFIED	
+CVE-2024-10725	failed	Verifier error: [Errno 2] No such file or directory: 'php'
+CVE-2024-32464	failed	
+CVE-2024-32965	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=3010): Max retries ex
+CVE-2024-36123	failed	
+CVE-2024-37169	failed	[!] Cannot reach the vulnerable service (http://localhost:3089/ping): HTTPConnectionPool(host='local
+CVE-2024-37306	failed	ERROR: redis-server binary not found
+CVE-2024-3829	failed	Verifier setup failed: [Errno 2] No such file or directory: './qdrant'
+CVE-2024-38513	failed	
+CVE-2024-39308	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=3000): Max retries ex
+CVE-2024-39895	failed	[-] Directus already unresponsive — aborting.
+CVE-2024-39915	failed	[ verifier ] failed to start Thruk: [Errno 2] No such file or directory: 'plackup'
+CVE-2024-39919	failed	
+CVE-2024-41659	failed	[!] Cannot find './memos'.
+CVE-2024-41805	failed	[!] Tracks does not appear to be running: HTTPConnectionPool(host='localhost', port=3000): Max retri
+CVE-2024-41812	failed	FileNotFoundError: [Errno 2] No such file or directory: 'ifconfig'
+CVE-2024-41813	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries ex
+CVE-2024-43406	failed	[!] kuiperd binary not found at _build/kuiper--linux-amd64/bin/kuiperd
+CVE-2024-45314	VERIFIED	
+CVE-2024-45393	failed	subprocess.CalledProcessError: Command '['python3', 'manage.py', 'migrate', '--noinput']' returned n
+CVE-2024-47536	VERIFIED	
+CVE-2024-48913	failed	[!] Verifier error: [Errno 2] No such file or directory: PosixPath('/work/hono-4.6.4/poc_server')
+CVE-2024-49376	failed	ModuleNotFoundError: No module named 'requests'
+CVE-2024-50347	failed	
+CVE-2024-52597	failed	[-] exploit.py exited with an error
+CVE-2024-53255	failed	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2024-55603	failed	RuntimeError: Could not find CSRF token on login page
+CVE-2024-55659	failed	
+CVE-2024-56200	failed	
+CVE-2024-56358	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8484): Max retries ex
+CVE-2024-56507	failed	
+CVE-2024-56508	failed	
+CVE-2024-56517	failed	
+CVE-2024-56799	failed	[!] Cannot find vulnerable jar at dist/0.2.6/manager-0.2.6.jar
+CVE-2024-6782	failed	FileNotFoundError: [Errno 2] No such file or directory: 'calibre_7.14/calibre/bin/calibredb'
+CVE-2024-8249	failed	[!] Server did not start within timeout; cannot verify exploit.
+CVE-2025-22132	failed	[-] Request failed: HTTPConnectionPool(host='localhost', port=80): Max retries exceeded with url: /s
+CVE-2025-22137	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8080): Max retries ex
+CVE-2025-22616	failed	FileNotFoundError: [Errno 2] No such file or directory: 'mysqladmin'
+CVE-2025-23032	failed	
+CVE-2025-23033	failed	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2025-23035	failed	[-] exploit.py terminated with an error
+CVE-2025-23036	failed	[!] Web service is not reachable – aborting.
+CVE-2025-23038	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries ex
+CVE-2025-24020	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries ex
+CVE-2025-24024	failed	Verifier failed: HTTPConnectionPool(host='localhost', port=8008): Max retries exceeded with url: /_m
+CVE-2025-24354	failed	[!] Setup failed: [Errno 2] No such file or directory: './imgproxy'
+CVE-2025-24899	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries ex
+CVE-2025-25196	failed	
+CVE-2025-27092	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=5000): Max retries ex
+CVE-2025-27133	failed	[!] Could not start or reach PHP server: [Errno 2] No such file or directory: 'php'
+CVE-2025-27399	failed	[verifier] Cannot reach Mastodon instance: HTTPConnectionPool(host='localhost', port=3000): Max retr
+CVE-2025-27410	failed	
+CVE-2025-27413	failed	[!] Backend failed to start – verifier aborting.
+CVE-2025-27419	VERIFIED	
+CVE-2025-29784	failed	[-] PHP executable not found – cannot start web-server.
+CVE-2025-30223	failed	
+CVE-2025-31129	failed	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('/work/jooby-3.0.0.M1/examples/cve
+CVE-2025-32012	failed	[-] Jellyfin is not reachable before exploit – abort.
+CVE-2025-32034	failed	[!] Router is not reachable – aborting (HTTPConnectionPool(host='127.0.0.1', port=44167): Max retr
+CVE-2025-32961	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8080): Max retries ex
+CVE-2025-46338	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=3333): Max retries ex
+CVE-2025-46348	failed	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8080): Max retries ex
+CVE-2025-46721	failed	RuntimeError: server did not become ready in time
+CVE-2025-46825	failed	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2025-47269	VERIFIED	

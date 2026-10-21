@@ -1,0 +1,305 @@
+cve	class	note
+CVE-2024-11168	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-0787	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-10720	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-10361	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-13183	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-21529	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-10525	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-36127	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-38517	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-21546	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-41811	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-42355	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-39302	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-52286	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-37904	verifier returned non-zero (needs service/build)	FAILED
+CVE-2024-11958	dependency install failed	subprocess.CalledProcessError: Command '['/usr/local/bin/python3', 'prepare_db.py']' returned non-ze
+CVE-2024-12029	verifier returned non-zero (needs service/build)	
+CVE-2024-12704	verifier returned non-zero (needs service/build)	
+CVE-2024-12909	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'llama_index'
+CVE-2024-12910	verifier error (needs service/build)	[-] Exploit did not trigger RecursionError – verification failed
+CVE-2024-21535	verifier returned non-zero (needs service/build)	[!] Could not execute exploit: Command '['/usr/bin/python3', '/work/markdown-to-jsx-7.3.2/exploit.py
+CVE-2024-21537	verifier error (needs service/build)	Error: Cannot find module './dist'
+CVE-2024-21538	verifier returned non-zero (needs service/build)	
+CVE-2024-24759	verifier returned non-zero (needs service/build)	
+CVE-2024-2928	verifier error (needs service/build)	KeyError: 'experiment_id'
+CVE-2024-3219	verifier returned non-zero (needs service/build)	[-] Vulnerable interpreter not found at install/bin/python3.8
+CVE-2024-3408	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=40000): Max retries e
+CVE-2024-35225	verifier returned non-zero (needs service/build)	
+CVE-2024-36128	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'directus-project'
+CVE-2024-3651	verifier returned non-zero (needs service/build)	
+CVE-2024-37168	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', 'h2'
+CVE-2024-39305	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: '/work/envoy-1.30.0/envoy_cookie_vuln.yaml'
+CVE-2024-39690	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'kubectl'
+CVE-2024-39700	verifier returned non-zero (needs service/build)	
+CVE-2024-39903	verifier error (needs service/build)	RuntimeError: Could not start Solara server
+CVE-2024-39917	dependency install failed	subprocess.CalledProcessError: Command '['./bootstrap']' returned non-zero exit status 1.
+CVE-2024-39918	verifier returned non-zero (needs service/build)	[!] Could not reach the vulnerable server on /ping – aborting.
+CVE-2024-4032	verifier returned non-zero (needs service/build)	[verifier] vulnerable interpreter not found at /work/cpython-3.8.19/python
+CVE-2024-40630	verifier error (needs service/build)	Verifier error: Cannot find build/bin/oiiotool
+CVE-2024-40637	verifier returned non-zero (needs service/build)	
+CVE-2024-41131	verifier returned non-zero (needs service/build)	
+CVE-2024-41132	verifier returned non-zero (needs service/build)	[-] repro directory not found – nothing to verify
+CVE-2024-41655	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', 'exploit.py', ')|^.{23}(a+)+$| Kit |(aa
+CVE-2024-41816	dependency install failed	subprocess.CalledProcessError: Command 'wp --path=wordpress post create --allow-root --post_type=pag
+CVE-2024-41820	verifier returned non-zero (needs service/build)	/bin/sh: 1: kubectl: not found
+CVE-2024-41946	verifier returned non-zero (needs service/build)	
+CVE-2024-41965	needs a built binary/artifact	[-] ./src/vim not found or not executable
+CVE-2024-42356	verifier returned non-zero (needs service/build)	[!] Required tool “Composer (PHP package manager)” not found in PATH.
+CVE-2024-42358	service not running	[-] Failed to fetch PoC font: Remote end closed connection without response
+CVE-2024-42367	verifier returned non-zero (needs service/build)	
+CVE-2024-42368	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', 'req
+CVE-2024-42482	verifier error (needs service/build)	[!] exploit.py exited with error status: 1
+CVE-2024-42485	service not running	urllib.error.URLError: <urlopen error [Errno 111] Connection refused>
+CVE-2024-43367	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'cargo'
+CVE-2024-43369	verifier returned non-zero (needs service/build)	[!] composer install failed or composer not found
+CVE-2024-43410	needs external tool/binary	Verifier error: [Errno 2] No such file or directory: 'cargo'
+CVE-2024-43787	verifier returned non-zero (needs service/build)	
+CVE-2024-43788	verifier returned non-zero (needs service/build)	
+CVE-2024-45041	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'kubectl'
+CVE-2024-45054	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'kubectl'
+CVE-2024-45298	verifier returned non-zero (needs service/build)	[!] database.sqlite not found – Wiki.js not running?
+CVE-2024-45310	verifier returned non-zero (needs service/build)	[!] ./runc binary (or stub) not found or not executable
+CVE-2024-45337	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'go'
+CVE-2024-45394	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', 'pyc
+CVE-2024-45409	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2024-45411	verifier returned non-zero (needs service/build)	[-] composer not found and vendor/ missing – cannot continue.
+CVE-2024-45803	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'testapp'
+CVE-2024-45811	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('/work/vite-5.4.0/vite-repro')
+CVE-2024-46990	verifier returned non-zero (needs service/build)	
+CVE-2024-47067	verifier returned non-zero (needs service/build)	[-] server did not come up – aborting.
+CVE-2024-47068	verifier returned non-zero (needs service/build)	[-] Bundle not found at /work/rollup-3.0.0/poc/bundle.js
+CVE-2024-47182	verifier returned non-zero (needs service/build)	[verifier] users.yml not found at data/users.yml
+CVE-2024-47530	service not running	[!] Could not contact Scout instance: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries e
+CVE-2024-47531	needs a built binary/artifact	cannot load library 'libcairo-2.dll': libcairo-2.dll: cannot open shared object file: No such file o
+CVE-2024-47533	service not running	ConnectionRefusedError: [Errno 111] Connection refused
+CVE-2024-47609	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'cargo'
+CVE-2024-47611	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'wine64'
+CVE-2024-47765	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'composer'
+CVE-2024-47814	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: './src/vim'
+CVE-2024-47818	verifier returned non-zero (needs service/build)	
+CVE-2024-47822	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('my-project')
+CVE-2024-47888	verifier returned non-zero (needs service/build)	[-] Ruby interpreter not found – cannot verify.
+CVE-2024-47889	verifier returned non-zero (needs service/build)	[-] Baseline run failed; aborting.
+CVE-2024-48911	needs a built binary/artifact	[-] Failed to open /etc/opencanaryd/opencanary.conf for reading ([Errno 2] No such file or directory
+CVE-2024-48914	verifier returned non-zero (needs service/build)	
+CVE-2024-48924	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('/work/MessagePack-CSharp-2.5.172/
+CVE-2024-48990	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'sudo'
+CVE-2024-49369	verifier returned non-zero (needs service/build)	
+CVE-2024-49750	verifier returned non-zero (needs service/build)	
+CVE-2024-49762	verifier returned non-zero (needs service/build)	[!] Cannot find log file: /var/log/nginx/panel-access.log
+CVE-2024-49770	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'deno'
+CVE-2024-50340	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: '/work/symfony-5.4.45/demo'
+CVE-2024-50341	verifier returned non-zero (needs service/build)	[!] python-requests not available – aborting.
+CVE-2024-50343	verifier returned non-zero (needs service/build)	[!] test-validator/composer.json missing – abort
+CVE-2024-50353	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'dotnet'
+CVE-2024-51491	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'sudo'
+CVE-2024-51737	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'cmake'
+CVE-2024-51753	verifier returned non-zero (needs service/build)	
+CVE-2024-51754	verifier returned non-zero (needs service/build)	[-] Composer binary not found in PATH.
+CVE-2024-51755	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'composer'
+CVE-2024-5182	service not running	[!] Error contacting http://localhost:8080/models/apply: <urlopen error [Errno 111] Connection refus
+CVE-2024-51996	verifier returned non-zero (needs service/build)	
+CVE-2024-52303	verifier error (needs service/build)	ERROR: aiohttp test server did not start.
+CVE-2024-52304	verifier returned non-zero (needs service/build)	
+CVE-2024-52305	verifier returned non-zero (needs service/build)	
+CVE-2024-52516	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2024-52517	verifier returned non-zero (needs service/build)	
+CVE-2024-52522	verifier error (needs service/build)	[-] exploit.py terminated with an error
+CVE-2024-52584	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'pkill'
+CVE-2024-52596	verifier returned non-zero (needs service/build)	
+CVE-2024-52806	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'composer'
+CVE-2024-52809	verifier returned non-zero (needs service/build)	[verifier] Failed to prepare environment: Command '['npm', 'install', '--silent', 'vue-i18n@10.0.4',
+CVE-2024-53271	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: '/usr/local/bin/envoy-1.31.0'
+CVE-2024-53985	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'bundle'
+CVE-2024-53986	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2024-53987	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'bundle'
+CVE-2024-53988	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'bundle'
+CVE-2024-53989	verifier returned non-zero (needs service/build)	[!] Bundler binary not found – Ruby/Bundler missing?
+CVE-2024-54133	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2024-54140	verifier returned non-zero (needs service/build)	[-] sigstore-cli (vulnerable version) not found at 'cli-dist/bin/sigstore-cli'. Build it first.
+CVE-2024-54150	verifier returned non-zero (needs service/build)	[-] build/libcjwt.so not found – did you build the project?
+CVE-2024-54151	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', 'websockets']' 
+CVE-2024-55655	verifier returned non-zero (needs service/build)	[-] manipulated_bundle_v3.json not found — aborting
+CVE-2024-55660	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', 'requests']' re
+CVE-2024-56362	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'jwt'
+CVE-2024-56406	verifier error (needs service/build)	Verifier error: vulnerable './perl' binary not found or not executable.
+CVE-2024-56734	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', 'requests']' re
+CVE-2024-6232	verifier error (needs service/build)	Verifier error: vulnerable ./python not found or not executable.
+CVE-2024-6587	verifier returned non-zero (needs service/build)	
+CVE-2024-8005	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'jwt'
+CVE-2024-8088	verifier returned non-zero (needs service/build)	[!] Vulnerable interpreter not found at /work/cpython-3.8.19/venv/bin/python3
+CVE-2024-8248	verifier returned non-zero (needs service/build)	
+CVE-2024-8572	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'go'
+CVE-2024-8946	verifier error (needs service/build)	make: *** [../../py/mkrules.mk:253: submodules] Error 128
+CVE-2024-8948	verifier returned non-zero (needs service/build)	[-] MicroPython binary not found at ports/unix/build-standard/micropython
+CVE-2024-9287	verifier returned non-zero (needs service/build)	[!] Vulnerable interpreter not found at pybuild/bin/python3
+CVE-2024-9606	verifier returned non-zero (needs service/build)	
+CVE-2025-0311	verifier returned non-zero (needs service/build)	[-] exploit.py failed to execute: Command '['/usr/bin/python3', '/work/themeisle-companion-2.10.43/e
+CVE-2025-0454	verifier returned non-zero (needs service/build)	
+CVE-2025-1194	dependency install failed	subprocess.CalledProcessError: Command '['/usr/local/bin/python3', '-m', 'pip', 'install', '--no-cac
+CVE-2025-1215	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: '/work/vim-9.1.1096/src/vim'
+CVE-2025-1473	verifier error (needs service/build)	RuntimeError: Failed to start vulnerable MLflow server
+CVE-2025-1584	verifier returned non-zero (needs service/build)	[!] Cannot find demo jar at /work/solon-3.0.0/demo-app/target/solon-demo-1.0-SNAPSHOT.jar
+CVE-2025-1716	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: '/work/picklescan-0.0.20/tests/data/exploit.
+CVE-2025-1752	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'llama_index'
+CVE-2025-1944	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'torch'
+CVE-2025-1945	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'torch'
+CVE-2025-21607	verifier returned non-zero (needs service/build)	
+CVE-2025-21609	verifier returned non-zero (needs service/build)	
+CVE-2025-21612	verifier returned non-zero (needs service/build)	
+CVE-2025-22150	verifier returned non-zero (needs service/build)	[-] No boundary observed ‑ aborting.
+CVE-2025-22615	verifier returned non-zero (needs service/build)	[!] PHP interpreter not available – abort.
+CVE-2025-23030	verifier returned non-zero (needs service/build)	
+CVE-2025-23034	verifier returned non-zero (needs service/build)	[!] Python module 'requests' not found.
+CVE-2025-23047	verifier returned non-zero (needs service/build)	
+CVE-2025-23218	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'mysql'
+CVE-2025-23219	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2025-23220	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'mysql'
+CVE-2025-24013	verifier error (needs service/build)	RuntimeError: php server terminated unexpectedly.
+CVE-2025-24030	service not running	[!] Port 19001 on 127.0.0.1 is not open. Envoy may not be running ‑ aborting.
+CVE-2025-24355	verifier returned non-zero (needs service/build)	
+CVE-2025-24356	verifier returned non-zero (needs service/build)	
+CVE-2025-24357	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'torch'
+CVE-2025-24358	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'go'
+CVE-2025-24374	verifier error (needs service/build)	[-] Failed to run exploit: exploit.py exited with an error
+CVE-2025-24788	verifier returned non-zero (needs service/build)	[-] Command '['/usr/bin/python3', 'exploit.py', 'VERIFIER-91e90d2c-65fe-496c-bd83-329c2d7d1b91']' re
+CVE-2025-24789	verifier returned non-zero (needs service/build)	
+CVE-2025-24793	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'pandas'
+CVE-2025-24794	dependency install failed	subprocess.CalledProcessError: Command '['/usr/local/bin/python3', '-m', 'pip', 'install', '.', '--q
+CVE-2025-24795	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'jwt'
+CVE-2025-24882	verifier returned non-zero (needs service/build)	[*] regctl binary not found – building vulnerable CLI…
+CVE-2025-24962	verifier returned non-zero (needs service/build)	
+CVE-2025-24976	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', 'pyj
+CVE-2025-24981	verifier returned non-zero (needs service/build)	
+CVE-2025-25184	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2025-25186	verifier returned non-zero (needs service/build)	
+CVE-2025-25205	verifier error (needs service/build)	RuntimeError: Could not start Audiobookshelf server.
+CVE-2025-25287	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2025-25289	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'demo'
+CVE-2025-25292	verifier returned non-zero (needs service/build)	
+CVE-2025-25304	verifier error (needs service/build)	Error: Cannot find module './packages/vega-selections/build/vega-selection.js'
+CVE-2025-2592	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: './build/bin/assimp'
+CVE-2025-26619	verifier returned non-zero (needs service/build)	
+CVE-2025-27112	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: './navidrome'
+CVE-2025-27417	verifier returned non-zero (needs service/build)	
+CVE-2025-27418	service not running	[-] Failed to contact target endpoint: <urlopen error [Errno 111] Connection refused>
+CVE-2025-27507	verifier returned non-zero (needs service/build)	[verifier] cannot find token file at tmp/admin-pat.txt
+CVE-2025-27520	verifier returned non-zero (needs service/build)	
+CVE-2025-27591	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: '/tmp/below_verifier_target_30' -> '/var/log
+CVE-2025-27597	verifier returned non-zero (needs service/build)	Cannot locate exploit directory – verifier must be run from repository root.
+CVE-2025-27607	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3.13', 'setup.py', 'bdist_wheel', '--dist-d
+CVE-2025-27610	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'bundle'
+CVE-2025-27617	dependency install failed	subprocess.CalledProcessError: Command '['php', '-r', '\nrequire getcwd() . \'/vendor/autoload.php\'
+CVE-2025-27793	verifier returned non-zero (needs service/build)	"[-] Failed to execute exploit.py: Command '['python3', 'exploit.py', 'console.log(""VERIF_a372956e942"
+CVE-2025-29768	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: './src/vim'
+CVE-2025-29769	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'pyvips'
+CVE-2025-29774	verifier returned non-zero (needs service/build)	
+CVE-2025-29914	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('poc')
+CVE-2025-29923	verifier returned non-zero (needs service/build)	[verifier] Failed to start redis-server: redis-server binary not found in PATH
+CVE-2025-29930	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2025-30144	service not running	[!] Verifier encountered an error: Timeout waiting for 127.0.0.1:3001
+CVE-2025-3015	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'build/bin/assimp'
+CVE-2025-30153	verifier returned non-zero (needs service/build)	[!] server binary not found – aborting
+CVE-2025-30154	verifier returned non-zero (needs service/build)	
+CVE-2025-30158	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2025-3016	verifier returned non-zero (needs service/build)	[-] vulnerable binary not found: build/bin/assimp
+CVE-2025-30204	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory
+CVE-2025-30212	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'click'
+CVE-2025-30221	needs a built binary/artifact	Verifier error: [Errno 2] No such file or directory: 'gem'
+CVE-2025-30357	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', '--u
+CVE-2025-30358	verifier returned non-zero (needs service/build)	
+CVE-2025-30370	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'git'
+CVE-2025-31120	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'pymysql'
+CVE-2025-31125	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('/work/vite-6.2.0/exploit-app')
+CVE-2025-31131	verifier returned non-zero (needs service/build)	
+CVE-2025-31138	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'node'
+CVE-2025-31479	verifier returned non-zero (needs service/build)	Exploit failed – token not found in output.
+CVE-2025-31486	verifier returned non-zero (needs service/build)	[verifier] cannot locate Vite project directory 'vulnerable-vite'
+CVE-2025-31492	service not running	ConnectionRefusedError: [Errno 111] Connection refused
+CVE-2025-3160	verifier returned non-zero (needs service/build)	
+CVE-2025-32014	dependency install failed	subprocess.CalledProcessError: Command '['node', '--input-type=module', '-e', '\nimport { valueToEst
+CVE-2025-32025	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'go'
+CVE-2025-32386	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: './bin/helm'
+CVE-2025-32387	verifier returned non-zero (needs service/build)	[-] Failed to build Helm; cannot verify exploit.
+CVE-2025-32395	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('/work/vite-6.2.0/vulnerable-vite'
+CVE-2025-32428	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'jupyter_server'
+CVE-2025-32441	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2025-32442	verifier error (needs service/build)	Error: Cannot find module '/work/fastify-5.0.0/reproduce.js'
+CVE-2025-32445	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'kubectl'
+CVE-2025-43855	needs a built binary/artifact	[!] Setup failed: [Errno 2] No such file or directory: PosixPath('/work/trpc-11.0.0/vulnerable-serve
+CVE-2025-46326	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'dotnet'
+CVE-2025-46336	verifier returned non-zero (needs service/build)	[!] ruby-bundler not found in PATH
+CVE-2025-46337	verifier returned non-zero (needs service/build)	
+CVE-2025-46549	verifier returned non-zero (needs service/build)	[!] router.php was not found in /work/yeswiki-4.5.3
+CVE-2025-46550	verifier error (needs service/build)	[Verifier] ERROR: exploit.py failed to run (Command '['python3', 'exploit.py', '<svg id=XSS_PAYLOAD_
+CVE-2025-46551	verifier returned non-zero (needs service/build)	[-] jruby-9.3.4.0 binary dir not found at /work/jruby-openssl-0.12.1/jruby-9.3.4.0/bin
+CVE-2025-46565	verifier returned non-zero (needs service/build)	
+CVE-2025-46569	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: './opa_linux_amd64'
+CVE-2025-46573	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', 'exploit.py', '9dhccc1gk2@example.com']
+CVE-2025-46727	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'ruby'
+CVE-2025-46728	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'vulnerable_server.cc'
+CVE-2025-46730	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries ex
+CVE-2025-46816	dependency install failed	subprocess.CalledProcessError: Command '['/usr/bin/python3', '-m', 'pip', 'install', '--quiet', 'web
+CVE-2024-10725	needs external tool/binary	Verifier error: [Errno 2] No such file or directory: 'php'
+CVE-2024-32464	verifier returned non-zero (needs service/build)	
+CVE-2024-32965	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=3010): Max retries ex
+CVE-2024-36123	verifier returned non-zero (needs service/build)	
+CVE-2024-37169	service not running	[!] Cannot reach the vulnerable service (http://localhost:3089/ping): HTTPConnectionPool(host='local
+CVE-2024-37306	verifier error (needs service/build)	ERROR: redis-server binary not found
+CVE-2024-3829	needs a built binary/artifact	Verifier setup failed: [Errno 2] No such file or directory: './qdrant'
+CVE-2024-38513	verifier returned non-zero (needs service/build)	
+CVE-2024-39308	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=3000): Max retries ex
+CVE-2024-39895	verifier returned non-zero (needs service/build)	[-] Directus already unresponsive — aborting.
+CVE-2024-39915	needs a built binary/artifact	[ verifier ] failed to start Thruk: [Errno 2] No such file or directory: 'plackup'
+CVE-2024-39919	verifier returned non-zero (needs service/build)	
+CVE-2024-41659	verifier returned non-zero (needs service/build)	[!] Cannot find './memos'.
+CVE-2024-41805	service not running	[!] Tracks does not appear to be running: HTTPConnectionPool(host='localhost', port=3000): Max retri
+CVE-2024-41812	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'ifconfig'
+CVE-2024-41813	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries ex
+CVE-2024-43406	verifier returned non-zero (needs service/build)	[!] kuiperd binary not found at _build/kuiper--linux-amd64/bin/kuiperd
+CVE-2024-45393	dependency install failed	subprocess.CalledProcessError: Command '['python3', 'manage.py', 'migrate', '--noinput']' returned n
+CVE-2024-48913	needs a built binary/artifact	[!] Verifier error: [Errno 2] No such file or directory: PosixPath('/work/hono-4.6.4/poc_server')
+CVE-2024-49376	missing python module (torch/jwt/…)	ModuleNotFoundError: No module named 'requests'
+CVE-2024-50347	verifier returned non-zero (needs service/build)	
+CVE-2024-52597	verifier error (needs service/build)	[-] exploit.py exited with an error
+CVE-2024-53255	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2024-55603	verifier error (needs service/build)	RuntimeError: Could not find CSRF token on login page
+CVE-2024-55659	verifier returned non-zero (needs service/build)	
+CVE-2024-56200	verifier returned non-zero (needs service/build)	
+CVE-2024-56358	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8484): Max retries ex
+CVE-2024-56507	verifier returned non-zero (needs service/build)	
+CVE-2024-56508	verifier returned non-zero (needs service/build)	
+CVE-2024-56517	verifier returned non-zero (needs service/build)	
+CVE-2024-56799	verifier returned non-zero (needs service/build)	[!] Cannot find vulnerable jar at dist/0.2.6/manager-0.2.6.jar
+CVE-2024-6782	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: 'calibre_7.14/calibre/bin/calibredb'
+CVE-2024-8249	verifier returned non-zero (needs service/build)	[!] Server did not start within timeout; cannot verify exploit.
+CVE-2025-22132	service not running	[-] Request failed: HTTPConnectionPool(host='localhost', port=80): Max retries exceeded with url: /s
+CVE-2025-22137	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8080): Max retries ex
+CVE-2025-22616	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'mysqladmin'
+CVE-2025-23032	verifier returned non-zero (needs service/build)	
+CVE-2025-23033	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'php'
+CVE-2025-23035	verifier error (needs service/build)	[-] exploit.py terminated with an error
+CVE-2025-23036	verifier returned non-zero (needs service/build)	[!] Web service is not reachable – aborting.
+CVE-2025-23038	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries ex
+CVE-2025-24020	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries ex
+CVE-2025-24024	service not running	Verifier failed: HTTPConnectionPool(host='localhost', port=8008): Max retries exceeded with url: /_m
+CVE-2025-24354	needs a built binary/artifact	[!] Setup failed: [Errno 2] No such file or directory: './imgproxy'
+CVE-2025-24899	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries ex
+CVE-2025-25196	verifier returned non-zero (needs service/build)	
+CVE-2025-27092	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=5000): Max retries ex
+CVE-2025-27133	needs external tool/binary	[!] Could not start or reach PHP server: [Errno 2] No such file or directory: 'php'
+CVE-2025-27399	service not running	[verifier] Cannot reach Mastodon instance: HTTPConnectionPool(host='localhost', port=3000): Max retr
+CVE-2025-27410	verifier returned non-zero (needs service/build)	
+CVE-2025-27413	verifier returned non-zero (needs service/build)	[!] Backend failed to start – verifier aborting.
+CVE-2025-29784	verifier returned non-zero (needs service/build)	[-] PHP executable not found – cannot start web-server.
+CVE-2025-30223	verifier returned non-zero (needs service/build)	
+CVE-2025-31129	needs a built binary/artifact	FileNotFoundError: [Errno 2] No such file or directory: PosixPath('/work/jooby-3.0.0.M1/examples/cve
+CVE-2025-32012	verifier returned non-zero (needs service/build)	[-] Jellyfin is not reachable before exploit – abort.
+CVE-2025-32034	service not running	[!] Router is not reachable – aborting (HTTPConnectionPool(host='127.0.0.1', port=44167): Max retr
+CVE-2025-32961	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8080): Max retries ex
+CVE-2025-46338	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=3333): Max retries ex
+CVE-2025-46348	service not running	requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8080): Max retries ex
+CVE-2025-46721	verifier error (needs service/build)	RuntimeError: server did not become ready in time
+CVE-2025-46825	needs external tool/binary	FileNotFoundError: [Errno 2] No such file or directory: 'php'
